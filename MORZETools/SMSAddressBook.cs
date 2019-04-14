@@ -6,13 +6,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SMS
 {
     public class AddressBook : IAddressBook
     {
-
         List<MORZEContact> m_contacts;
         string m_path;
         public AddressBook()
@@ -42,11 +41,19 @@ namespace SMS
             Monitor.Exit(m_contacts);
             return err;
         }
-
+        public List<MORZEContact> Contacts
+        {
+            get
+            {
+                return m_contacts;
+            }
+        }
         public string AddContact(IMORZEContact   cnt)
         {
 
             string err = null;
+            if (m_contacts == null)
+                m_contacts = new List<MORZEContact>();
             Monitor.Enter(m_contacts);
             try
             {
@@ -121,7 +128,7 @@ namespace SMS
         /// <returns></returns>
         public string Save()
         {
-            XmlSerializer formatter = null;
+            BinaryFormatter formatter = null;
             MemoryStream ms=null;
             string error = null;
             bool isBkCopied = false;
@@ -131,7 +138,7 @@ namespace SMS
             {
                 if (m_contacts != null)
                 {
-                    formatter = new XmlSerializer(typeof(List<MORZEContact>));
+                    formatter = new BinaryFormatter();
                     ms = new MemoryStream();
 
                     Monitor.Enter(m_contacts);
@@ -190,7 +197,7 @@ namespace SMS
         }
         private string Load(string path)
         {
-            XmlSerializer formatter = null;
+            BinaryFormatter formatter = null;
             MemoryStream ms = null;
             string error = null;
             
@@ -206,7 +213,7 @@ namespace SMS
                 fs.Read(encdata, 0, encdata.Length);
                 fs.Close();
                 data = ProtectedData.Unprotect(encdata, null, DataProtectionScope.CurrentUser);
-                formatter = new XmlSerializer(typeof(List<MORZEContact>));
+                formatter = new BinaryFormatter();
                 ms = new MemoryStream();
                 ms.Write(data, 0, data.Length);
                 ms.Flush();

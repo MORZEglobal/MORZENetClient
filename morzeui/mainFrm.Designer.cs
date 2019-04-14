@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainFrm));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.lvContact = new System.Windows.Forms.ListView();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.delContact = new System.Windows.Forms.ToolStripMenuItem();
             this.propertyContact = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,6 +37,8 @@
             this.tsConnect = new System.Windows.Forms.ToolStripDropDownButton();
             this.mnConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.mnDisconnect = new System.Windows.Forms.ToolStripMenuItem();
+            this.lvContact = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -51,15 +52,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(284, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // lvContact
-            // 
-            this.lvContact.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvContact.Location = new System.Drawing.Point(0, 0);
-            this.lvContact.Name = "lvContact";
-            this.lvContact.Size = new System.Drawing.Size(284, 594);
-            this.lvContact.TabIndex = 1;
-            this.lvContact.UseCompatibleStateImageBehavior = false;
             // 
             // toolStripDropDownButton1
             // 
@@ -78,19 +70,19 @@
             // 
             this.delContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.delContact.Name = "delContact";
-            this.delContact.Size = new System.Drawing.Size(134, 22);
+            this.delContact.Size = new System.Drawing.Size(152, 22);
             this.delContact.Text = "Удалить...";
             // 
             // propertyContact
             // 
             this.propertyContact.Name = "propertyContact";
-            this.propertyContact.Size = new System.Drawing.Size(134, 22);
+            this.propertyContact.Size = new System.Drawing.Size(152, 22);
             this.propertyContact.Text = "Свойства...";
             // 
             // newContact
             // 
             this.newContact.Name = "newContact";
-            this.newContact.Size = new System.Drawing.Size(134, 22);
+            this.newContact.Size = new System.Drawing.Size(152, 22);
             this.newContact.Text = "Новый...";
             this.newContact.Click += new System.EventHandler(this.newContact_Click);
             // 
@@ -109,16 +101,36 @@
             // mnConnect
             // 
             this.mnConnect.Name = "mnConnect";
-            this.mnConnect.Size = new System.Drawing.Size(152, 22);
+            this.mnConnect.Size = new System.Drawing.Size(125, 22);
             this.mnConnect.Text = "В сети";
             this.mnConnect.Click += new System.EventHandler(this.mnConnect_Click);
             // 
             // mnDisconnect
             // 
             this.mnDisconnect.Name = "mnDisconnect";
-            this.mnDisconnect.Size = new System.Drawing.Size(152, 22);
+            this.mnDisconnect.Size = new System.Drawing.Size(125, 22);
             this.mnDisconnect.Text = "Не в сети";
             this.mnDisconnect.Click += new System.EventHandler(this.mnDisconnect_Click);
+            // 
+            // lvContact
+            // 
+            this.lvContact.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.lvContact.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvContact.FullRowSelect = true;
+            this.lvContact.GridLines = true;
+            this.lvContact.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvContact.Location = new System.Drawing.Point(0, 0);
+            this.lvContact.Name = "lvContact";
+            this.lvContact.Size = new System.Drawing.Size(284, 594);
+            this.lvContact.TabIndex = 1;
+            this.lvContact.UseCompatibleStateImageBehavior = false;
+            this.lvContact.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Account";
+            this.columnHeader1.Width = 279;
             // 
             // mainFrm
             // 
@@ -149,6 +161,7 @@
         private System.Windows.Forms.ToolStripDropDownButton tsConnect;
         private System.Windows.Forms.ToolStripMenuItem mnConnect;
         private System.Windows.Forms.ToolStripMenuItem mnDisconnect;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }
 

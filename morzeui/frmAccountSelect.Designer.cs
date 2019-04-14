@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.lv = new System.Windows.Forms.ListView();
-            this.Ok = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lv
@@ -50,15 +50,20 @@
             this.lv.View = System.Windows.Forms.View.Details;
             this.lv.DoubleClick += new System.EventHandler(this.Ok_Click);
             // 
-            // Ok
+            // columnHeader1
             // 
-            this.Ok.Location = new System.Drawing.Point(197, 179);
-            this.Ok.Name = "Ok";
-            this.Ok.Size = new System.Drawing.Size(75, 23);
-            this.Ok.TabIndex = 1;
-            this.Ok.Text = "btnOk";
-            this.Ok.UseVisualStyleBackColor = true;
-            this.Ok.Click += new System.EventHandler(this.Ok_Click);
+            this.columnHeader1.Text = "Account";
+            this.columnHeader1.Width = 262;
+            // 
+            // btnOk
+            // 
+            this.btnOk.Location = new System.Drawing.Point(197, 179);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 1;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.Ok_Click);
             // 
             // btnCancel
             // 
@@ -71,20 +76,15 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Account";
-            this.columnHeader1.Width = 262;
-            // 
             // frmAccountSelect
             // 
-            this.AcceptButton = this.Ok;
+            this.AcceptButton = this.btnOk;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(284, 214);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.Ok);
+            this.Controls.Add(this.btnOk);
             this.Controls.Add(this.lv);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -102,7 +102,7 @@
 
         private System.Windows.Forms.ListView lv;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.Button Ok;
+        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
     }
 }

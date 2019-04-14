@@ -52,6 +52,12 @@
     <Compile Include="dlgContact.Designer.cs">
       <DependentUpon>dlgContact.cs</DependentUpon>
     </Compile>
+    <Compile Include="dlgMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dlgMessage.Designer.cs">
+      <DependentUpon>dlgMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmAccountSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +74,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="dlgContact.resx">
       <DependentUpon>dlgContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dlgMessage.resx">
+      <DependentUpon>dlgMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAccountSelect.resx">
       <DependentUpon>frmAccountSelect.cs</DependentUpon>

@@ -17,7 +17,7 @@ namespace SMS
         private byte[] m_pkIV = null;
         private DateTime ?m_date =null;
         private byte[] m_inExt=null;
-        
+
         private SMSSyncAlgo m_alg= SMSSyncAlgo.None;
         private SMSHash m_halg= SMSHash.None;
         
@@ -122,17 +122,19 @@ namespace SMS
         /// <summary>
         /// подвержденные ключи
         /// </summary>
+        [XmlArray("ExtKeys"), XmlArrayItem(typeof(ExtKey), ElementName ="ExtKey")]
         private List<ExtKey> m_Exts;
         /// <summary>
         /// временные ключи , ожидающие подверждения
         /// </summary>
-        private List<ExtKey> m_TmpExts; 
+        [XmlArray("TempKeys"), XmlArrayItem(typeof(ExtKey), ElementName ="ExtKey")]
+        private List<ExtKey> m_TmpExts;
+        [NonSerialized()]
         RSACryptoServiceProvider m_rsa = null;
         SMSAsyncAlgo m_alg;
+        [NonSerialized()]
         RNGCryptoServiceProvider m_rngCsp;
-        public MORZEContact()
-        {
-        }
+
         public MORZEContact(string Name, string address)
         {
             const string pref="MRZR";
@@ -267,6 +269,10 @@ namespace SMS
             bool bRes = false;
 
             return bRes;
+        }
+        public override string ToString()
+        {
+            return m_DisplayName;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace smsapp
         {
             
             
-            MORZEContact alice = new MORZEContact("MRZRBgIAAACkAABSU0ExAAQAAAEAAQDdEHaTbjquPhR0KSWR9Jr2I+6QtkANZqQGu9lHfNQBocy7M0jRlTV+Jd3A/0/P+ixJUazLbV7BlXfHgwomTdX3g9FbnafjHM5psmX5ZDGN/YAKFUGkH+Gt+otxDq8K2wNlUMChSL3wpYqOrsFRSVzpXkk1Xmtgzd6BfXveewEIuA==");
+            MORZEContact alice = new MORZEContact("Alice", "MRZRBgIAAACkAABSU0ExAAQAAAEAAQDdEHaTbjquPhR0KSWR9Jr2I+6QtkANZqQGu9lHfNQBocy7M0jRlTV+Jd3A/0/P+ixJUazLbV7BlXfHgwomTdX3g9FbnafjHM5psmX5ZDGN/YAKFUGkH+Gt+otxDq8K2wNlUMChSL3wpYqOrsFRSVzpXkk1Xmtgzd6BfXveewEIuA==");
             
             client.SendMessage("Hello Alice", alice);
 

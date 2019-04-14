@@ -26,8 +26,16 @@ namespace morzeui
 
         private void mainFrm_Load(object sender, EventArgs e)
         {
-            LoadAccount();
+            
             m_book = new AddressBook();
+            if (m_book != null)
+            {
+                foreach (MORZEContact contact in m_book.Contacts)
+                {
+                    AddContactToList(contact);
+                }
+            }
+            LoadAccount();
         }
 
         private void newContact_Click(object sender, EventArgs e)
@@ -35,7 +43,18 @@ namespace morzeui
             dlgContact dlg=new dlgContact();
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-
+                IMORZEContact contact = dlg.MORZEContact;
+                string err = m_book.AddContact(contact);
+                if (string.IsNullOrEmpty(err) == true)
+                {
+                    m_book.Save();
+                    AddContactToList(contact);
+                }
+                else
+                {
+                    MessageBox.Show(err, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                    
             }
             dlg.Dispose();
         }
@@ -122,6 +141,12 @@ namespace morzeui
         private void mnDisconnect_Click(object sender, EventArgs e)
         {
             Disconnect();
+        }
+        private void AddContactToList(IMORZEContact contact)
+        {
+            ListViewItem lvi = new ListViewItem(contact.ToString());
+            lvi.Tag = contact;
+            lvContact.Items.Add(lvi);
         }
     }
 }
