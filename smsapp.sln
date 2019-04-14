@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smsapp", "smsapp\smsapp.csproj", "{004E6A12-10AD-40D7-AECA-C14C47B6245A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSNET", "smsnetclient\SMSNET.csproj", "{5E6E0BF5-02D9-4F80-B061-DC62349630B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSTools", "MORZETools\SMSTools.csproj", "{1D737832-1FE5-4D25-834E-5847C09778A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "morzeui", "morzeui\morzeui.csproj", "{2FA6B2A2-3BDD-4E13-9DBB-B6E77D91C5F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{004E6A12-10AD-40D7-AECA-C14C47B6245A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{004E6A12-10AD-40D7-AECA-C14C47B6245A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{004E6A12-10AD-40D7-AECA-C14C47B6245A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{004E6A12-10AD-40D7-AECA-C14C47B6245A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E6E0BF5-02D9-4F80-B061-DC62349630B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6E0BF5-02D9-4F80-B061-DC62349630B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6E0BF5-02D9-4F80-B061-DC62349630B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6E0BF5-02D9-4F80-B061-DC62349630B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D737832-1FE5-4D25-834E-5847C09778A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D737832-1FE5-4D25-834E-5847C09778A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D737832-1FE5-4D25-834E-5847C09778A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D737832-1FE5-4D25-834E-5847C09778A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FA6B2A2-3BDD-4E13-9DBB-B6E77D91C5F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FA6B2A2-3BDD-4E13-9DBB-B6E77D91C5F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FA6B2A2-3BDD-4E13-9DBB-B6E77D91C5F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FA6B2A2-3BDD-4E13-9DBB-B6E77D91C5F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
