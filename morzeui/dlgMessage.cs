@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SMS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,38 @@ namespace morzeui
 {
     public partial class dlgMessage : Form
     {
-        public dlgMessage()
+        IMORZEContact m_cnt;
+        ISMSAccount m_acc;
+        SMSNet m_net;
+        public dlgMessage(IMORZEContact cnt, ISMSAccount acc, SMSNet net)
         {
+            m_cnt = cnt;
+            m_acc = acc;
+            m_net = net;
             InitializeComponent();
         }
+
+        private void dlgMessage_Load(object sender, EventArgs e)
+        {
+            Text = string.Format("{0} - {1}", m_acc.ToString(), m_cnt.ToString());
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbMessage.Text) == false)
+            {
+                string err = null;
+                try
+                {
+                    err = m_net.SendMessage(tbMessage.Text, m_cnt);
+                }
+                catch (Exception exp)
+                {
+                    err = exp.Message;
+                }
+            }
+        }
+
+        
     }
 }

@@ -70,19 +70,19 @@
             // 
             this.delContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.delContact.Name = "delContact";
-            this.delContact.Size = new System.Drawing.Size(152, 22);
+            this.delContact.Size = new System.Drawing.Size(134, 22);
             this.delContact.Text = "Удалить...";
             // 
             // propertyContact
             // 
             this.propertyContact.Name = "propertyContact";
-            this.propertyContact.Size = new System.Drawing.Size(152, 22);
+            this.propertyContact.Size = new System.Drawing.Size(134, 22);
             this.propertyContact.Text = "Свойства...";
             // 
             // newContact
             // 
             this.newContact.Name = "newContact";
-            this.newContact.Size = new System.Drawing.Size(152, 22);
+            this.newContact.Size = new System.Drawing.Size(134, 22);
             this.newContact.Text = "Новый...";
             this.newContact.Click += new System.EventHandler(this.newContact_Click);
             // 
@@ -126,6 +126,7 @@
             this.lvContact.TabIndex = 1;
             this.lvContact.UseCompatibleStateImageBehavior = false;
             this.lvContact.View = System.Windows.Forms.View.Details;
+            this.lvContact.DoubleClick += new System.EventHandler(this.lvContact_DoubleClick);
             // 
             // columnHeader1
             // 

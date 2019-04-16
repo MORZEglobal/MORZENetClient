@@ -134,37 +134,26 @@ namespace SMS
         SMSAsyncAlgo m_alg;
         [NonSerialized()]
         RNGCryptoServiceProvider m_rngCsp;
-
+        [NonSerialized()]
+        const string m_pref = "MRZR";
         public MORZEContact(string Name, string address)
         {
-            const string pref="MRZR";
+            
             const string err = "Неверный формат адреса";
             m_publickKey = null;
             m_address = null;
             m_accAddress = Encoding.ASCII.GetBytes(address);
-            if (address.IndexOf(pref)==0)
+            if (address.IndexOf(m_pref)==0)
             {
                 m_alg = SMSAsyncAlgo.RSA;
-                RSACryptoServiceProvider rsa = null;
-                try
-                {
-                    byte[] pk;
-                    string base64 = address.Substring(pref.Length);
-                    pk = Convert.FromBase64String(base64);
-                    rsa = new RSACryptoServiceProvider();
-                    rsa.ImportCspBlob(pk);
-                    m_rsa = new RSACryptoServiceProvider();
-                    m_rsa.ImportCspBlob(pk);
-                    m_address = address;
-                    m_publickKey = pk;
-                    m_rngCsp = new RNGCryptoServiceProvider();
-                }
-                finally
-                {
-                    if (rsa != null)
-                        rsa.Dispose();
-                }
+                InitRSA();
+                m_address = address;
+
+                m_rngCsp = new RNGCryptoServiceProvider();
+
                 
+
+
             }
             else
             {
@@ -175,13 +164,24 @@ namespace SMS
             else
                 m_DisplayName = Name;
         }
-       
+        private void InitRSA()
+        {
+
+            byte[] pk;
+            string base64 = m_address.Substring(m_pref.Length);
+            pk = Convert.FromBase64String(base64);
+            m_publickKey = pk;
+            m_rsa = new RSACryptoServiceProvider();
+            m_rsa.ImportCspBlob(pk);
+        }
         public byte[] EncryptPK(byte[] input)
         {
             byte[] res = null;
             try
             {
-  
+                if (m_rsa == null && m_alg == SMSAsyncAlgo.RSA)
+                    InitRSA();
+
                 res = m_rsa.Encrypt(input, false);
             }
             catch(Exception exp)
@@ -217,8 +217,9 @@ namespace SMS
         public ExtKey getInitalData()
         {
             
-            
-            
+            if (m_rngCsp==null)
+                m_rngCsp= new RNGCryptoServiceProvider();
+
             ExtKey exkey = new SMS.ExtKey(m_rngCsp, SMSSyncAlgo.DES, SMSHash.MD5);
             
             Monitor.Enter(this);

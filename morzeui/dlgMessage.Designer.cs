@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.tbMessage = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnSend = new System.Windows.Forms.Button();
-            this.tbMessage = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -46,6 +46,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(694, 100);
             this.panel1.TabIndex = 0;
+            // 
+            // tbMessage
+            // 
+            this.tbMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbMessage.Location = new System.Drawing.Point(0, 0);
+            this.tbMessage.MaxLength = 1024;
+            this.tbMessage.Multiline = true;
+            this.tbMessage.Name = "tbMessage";
+            this.tbMessage.Size = new System.Drawing.Size(598, 100);
+            this.tbMessage.TabIndex = 1;
             // 
             // panel2
             // 
@@ -65,16 +75,7 @@
             this.btnSend.TabIndex = 0;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
-            // 
-            // tbMessage
-            // 
-            this.tbMessage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbMessage.Location = new System.Drawing.Point(0, 0);
-            this.tbMessage.MaxLength = 1024;
-            this.tbMessage.Multiline = true;
-            this.tbMessage.Name = "tbMessage";
-            this.tbMessage.Size = new System.Drawing.Size(598, 100);
-            this.tbMessage.TabIndex = 1;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // richTextBox1
             // 
@@ -98,6 +99,7 @@
             this.Name = "dlgMessage";
             this.ShowInTaskbar = false;
             this.Text = "dlgMessage";
+            this.Load += new System.EventHandler(this.dlgMessage_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

@@ -18,6 +18,7 @@ namespace morzeui
         SMSNet m_net;
         SMSAccount m_account;
         string m_wndTitle;
+        List<dlgMessage> m_dlgMsgs;
         public mainFrm()
         {
             InitializeComponent();
@@ -147,6 +148,54 @@ namespace morzeui
             ListViewItem lvi = new ListViewItem(contact.ToString());
             lvi.Tag = contact;
             lvContact.Items.Add(lvi);
+        }
+
+        private void lvContact_DoubleClick(object sender, EventArgs e)
+        {
+            if (lvContact.SelectedItems.Count == 1)
+            {
+                IMORZEContact cnt = lvContact.SelectedItems[0].Tag as IMORZEContact;
+
+
+                dlgMessage msg = null;
+                if (m_dlgMsgs != null)
+                {
+                    for (int i = 0; i < m_dlgMsgs.Count && msg == null; i++)
+                    {
+                        if (m_dlgMsgs[i].Tag == cnt)
+                            msg = m_dlgMsgs[i];
+                    }
+                }
+                else
+                    m_dlgMsgs = new List<dlgMessage>();
+
+                if (msg == null)
+                {
+                    msg=new dlgMessage(cnt, m_account, m_net);
+                    msg.Tag = cnt;
+                    msg.FormClosed += Msg_FormClosed;
+                    m_dlgMsgs.Add(msg);
+                    
+                }
+                if (msg != null)
+                {
+                    if (msg.Visible == false)
+                        msg.Show();
+                    msg.Focus();
+                    
+                }
+            }
+        }
+
+        private void Msg_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (m_dlgMsgs != null)
+            {
+                dlgMessage dlg = sender as dlgMessage;
+                m_dlgMsgs.Remove(dlg);
+                dlg.Dispose();
+            }
+
         }
     }
 }

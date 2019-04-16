@@ -40,11 +40,11 @@ namespace SMS
         {
             SMSInitialMessage imsg = new SMSInitialMessage(m_account, to);
 
-            Monitor.Enter(this);
-            //if (m_InitalMessages == null)
-            //    m_InitalMessages = new List<MORZEInitialMessage>();
-            //m_InitalMessages.Add(imsg);
-            Monitor.Exit(this);
+            //Monitor.Enter(this);
+            ////if (m_InitalMessages == null)
+            ////    m_InitalMessages = new List<MORZEInitialMessage>();
+            ////m_InitalMessages.Add(imsg);
+            //Monitor.Exit(this);
 
             imsg.Send(m_netStream);
             SMSSendExt ext = new SMSSendExt(this);

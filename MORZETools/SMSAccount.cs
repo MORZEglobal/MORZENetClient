@@ -293,5 +293,9 @@ namespace SMS
         {
             return AddressBook;
         }
+        public override string ToString()
+        {
+            return m_KeyName;
+        }
     }
 }
