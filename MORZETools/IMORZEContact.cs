@@ -24,5 +24,6 @@ namespace SMS
         /// <param name="ext"></param>
         /// <returns>true - сообщение было успешно декодировано</returns>
         bool PutReciveMessage(byte[] msg, byte[] hash, SMSHash hashid, byte[] ext);
+
     }
 }

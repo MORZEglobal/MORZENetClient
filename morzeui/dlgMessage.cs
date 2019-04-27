@@ -14,9 +14,9 @@ namespace morzeui
     public partial class dlgMessage : Form
     {
         IMORZEContact m_cnt;
-        ISMSAccount m_acc;
+        IMORZEAccount m_acc;
         SMSNet m_net;
-        public dlgMessage(IMORZEContact cnt, ISMSAccount acc, SMSNet net)
+        public dlgMessage(IMORZEContact cnt, IMORZEAccount acc, SMSNet net)
         {
             m_cnt = cnt;
             m_acc = acc;

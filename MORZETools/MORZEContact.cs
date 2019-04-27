@@ -136,6 +136,7 @@ namespace SMS
         RNGCryptoServiceProvider m_rngCsp;
         [NonSerialized()]
         const string m_pref = "MRZR";
+
         public MORZEContact(string Name, string address)
         {
             
@@ -145,9 +146,10 @@ namespace SMS
             m_accAddress = Encoding.ASCII.GetBytes(address);
             if (address.IndexOf(m_pref)==0)
             {
+                m_address = address;
                 m_alg = SMSAsyncAlgo.RSA;
                 InitRSA();
-                m_address = address;
+                
 
                 m_rngCsp = new RNGCryptoServiceProvider();
 
@@ -157,6 +159,7 @@ namespace SMS
             }
             else
             {
+                m_address = null;
                 throw new Exception(err);
             }
             if (string.IsNullOrEmpty(Name) == true)
@@ -275,5 +278,13 @@ namespace SMS
         {
             return m_DisplayName;
         }
+        public string DisplayName
+        {
+            set
+            {
+                m_DisplayName = value;
+            }
+        }
+
     }
 }

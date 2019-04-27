@@ -32,7 +32,7 @@ namespace SMS
         const ushort m_clientversion=0x1;
         Random m_rnd;
         bool m_stop;
-        ISMSAccount m_account;
+        IMORZEAccount m_account;
         NetworkStream m_netStream =null;
         //SMSRecvHello m_rspHello;
         MORZESendAsync m_sendAsyngCmd;
@@ -43,7 +43,7 @@ namespace SMS
         public event connected OnConnected;
         public event disconnected OnDisconnected;
         #endregion
-        public SMSNet(ISMSAccount account)
+        public SMSNet(IMORZEAccount account)
         {
 
             m_stop = false;

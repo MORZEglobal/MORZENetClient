@@ -59,6 +59,10 @@ namespace morzeui
             {
                 return m_cnt;
             }
+            set
+            {
+                m_cnt = value;
+            }
         }
     }
 }

@@ -21,8 +21,8 @@ namespace SMS
     {
         Stream m_netStream;
         byte []m_header;
-        ISMSAccount m_account;
-        public MORZERecvCommand (ISMSAccount account, NetworkStream netstream)
+        IMORZEAccount m_account;
+        public MORZERecvCommand (IMORZEAccount account, NetworkStream netstream)
         {
             m_account = account;
             m_header = new byte[4];

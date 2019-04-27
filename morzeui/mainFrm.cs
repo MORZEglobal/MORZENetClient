@@ -37,6 +37,18 @@ namespace morzeui
                 }
             }
             LoadAccount();
+            m_book.OnNewAccountRecive += book_OnNewAccountRecive;
+        }
+
+        private void book_OnNewAccountRecive(IMORZEContact contact)
+        {
+            if (contact != null)
+            {
+                Invoke(new Action(() =>
+                {
+                    AddContactToList(contact);
+                }));
+            }
         }
 
         private void newContact_Click(object sender, EventArgs e)
@@ -129,8 +141,9 @@ namespace morzeui
         {
             Invoke(new Action(() =>
                 {
-                tsConnect.Image = Properties.Resources.Green;
-                Cursor = Cursors.Default;
+                    tsConnect.Image = Properties.Resources.Green;
+                    Cursor = Cursors.Default;
+                    m_account.AddressBook = m_book;
             }));
         }
 
@@ -147,6 +160,7 @@ namespace morzeui
         {
             ListViewItem lvi = new ListViewItem(contact.ToString());
             lvi.Tag = contact;
+            lvi.ToolTipText = contact.GetAddress();
             lvContact.Items.Add(lvi);
         }
 
@@ -196,6 +210,31 @@ namespace morzeui
                 dlg.Dispose();
             }
 
+        }
+
+        private void параметрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvContact.SelectedItems.Count == 1)
+            {
+                dlgContact dlg = new dlgContact();
+                dlg.MORZEContact = lvContact.SelectedItems[0].Tag as IMORZEContact;
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    IMORZEContact contact = dlg.MORZEContact;
+                    string err = m_book.UpdateContact(contact);
+                    if (string.IsNullOrEmpty(err) == true)
+                    {
+                        m_book.Save();
+                        lvContact.SelectedItems[0].Text = contact.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show(err, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                }
+                dlg.Dispose();
+            }
         }
     }
 }

@@ -10,14 +10,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SMS
 {
+    public delegate void NewAccountRecive(IMORZEContact contact);
     public class AddressBook : IAddressBook
     {
         List<MORZEContact> m_contacts;
         string m_path;
+        public event NewAccountRecive OnNewAccountRecive;
         public AddressBook()
         {
             m_path = SMSFileTools.SMSPath;
             m_path += "addressbook.store";
+            OnNewAccountRecive = null;
             Load();
         }
         public string AddContact(string Name, string address)
@@ -66,7 +69,15 @@ namespace SMS
             Monitor.Exit(m_contacts);
             return err;
         }
+        public string UpdateContact(IMORZEContact cnt)
+        {
+            string err = null;
+            MORZEContact c=m_contacts.Where(x => x.GetAddress() == cnt.GetAddress()).FirstOrDefault();
+            if (c != null)
+                c.DisplayName = cnt.ToString();
 
+            return err;
+        }
         /// <summary>
         /// добавить контакт в адресную книгу
         /// </summary>
@@ -76,6 +87,7 @@ namespace SMS
         public IMORZEContact GetContact(string address, bool isaddIfnotExist)
         {
             IMORZEContact cnt=null;
+            bool isnew = false;
             Monitor.Enter(m_contacts);
 
             var cnts = m_contacts.Where(x => x.GetAddress() == address);
@@ -91,8 +103,9 @@ namespace SMS
                         _cnt = new MORZEContact(null, address);
                         m_contacts.Add(_cnt);
                         cnt = _cnt;
+                        isnew = true;
                     }
-                    catch 
+                    catch  (Exception exp)
                     {
                         cnt = null;
                     }
@@ -100,6 +113,10 @@ namespace SMS
             }
 
             Monitor.Exit(m_contacts);
+            if (cnt != null && OnNewAccountRecive != null && isnew==true)
+            {
+                OnNewAccountRecive(cnt);
+            }
             return cnt;
         }
         public IMORZEContact GetContact(byte [] ext)

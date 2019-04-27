@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainFrm));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
@@ -39,7 +40,11 @@
             this.mnDisconnect = new System.Windows.Forms.ToolStripMenuItem();
             this.lvContact = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.cmsLV = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.чатToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.параметрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
+            this.cmsLV.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -116,12 +121,14 @@
             // 
             this.lvContact.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
+            this.lvContact.ContextMenuStrip = this.cmsLV;
             this.lvContact.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvContact.FullRowSelect = true;
             this.lvContact.GridLines = true;
             this.lvContact.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvContact.Location = new System.Drawing.Point(0, 0);
             this.lvContact.Name = "lvContact";
+            this.lvContact.ShowItemToolTips = true;
             this.lvContact.Size = new System.Drawing.Size(284, 594);
             this.lvContact.TabIndex = 1;
             this.lvContact.UseCompatibleStateImageBehavior = false;
@@ -132,6 +139,28 @@
             // 
             this.columnHeader1.Text = "Account";
             this.columnHeader1.Width = 279;
+            // 
+            // cmsLV
+            // 
+            this.cmsLV.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.чатToolStripMenuItem,
+            this.параметрыToolStripMenuItem});
+            this.cmsLV.Name = "cmsLV";
+            this.cmsLV.Size = new System.Drawing.Size(153, 70);
+            // 
+            // чатToolStripMenuItem
+            // 
+            this.чатToolStripMenuItem.Name = "чатToolStripMenuItem";
+            this.чатToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.чатToolStripMenuItem.Text = "Чат...";
+            this.чатToolStripMenuItem.Click += new System.EventHandler(this.lvContact_DoubleClick);
+            // 
+            // параметрыToolStripMenuItem
+            // 
+            this.параметрыToolStripMenuItem.Name = "параметрыToolStripMenuItem";
+            this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.параметрыToolStripMenuItem.Text = "Параметры...";
+            this.параметрыToolStripMenuItem.Click += new System.EventHandler(this.параметрыToolStripMenuItem_Click);
             // 
             // mainFrm
             // 
@@ -146,6 +175,7 @@
             this.Load += new System.EventHandler(this.mainFrm_Load);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.cmsLV.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,6 +193,9 @@
         private System.Windows.Forms.ToolStripMenuItem mnConnect;
         private System.Windows.Forms.ToolStripMenuItem mnDisconnect;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ContextMenuStrip cmsLV;
+        private System.Windows.Forms.ToolStripMenuItem чатToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem параметрыToolStripMenuItem;
     }
 }
 
