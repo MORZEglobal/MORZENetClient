@@ -46,6 +46,7 @@
     <Compile Include="IAddressBook.cs" />
     <Compile Include="IMORZEAccount.cs" />
     <Compile Include="IMORZEContact.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="SMSAddressBook.cs" />
     <Compile Include="MORZEContact.cs" />
     <Compile Include="SMSAccount.cs" />

@@ -129,8 +129,9 @@ namespace morzeui
         {
             Invoke(new Action(() =>
                 {
-                tsConnect.Image = Properties.Resources.Green;
-                Cursor = Cursors.Default;
+                    tsConnect.Image = Properties.Resources.Green;
+                    Cursor = Cursors.Default;
+                    m_account.AddressBook = m_book;
             }));
         }
 

@@ -21,11 +21,11 @@ namespace SMS
         List<byte[]> m_msgData;
         List<byte[]> m_msgHash;
         List<byte[]> m_msgExt;
-        ISMSAccount m_acc;
+        IMORZEAccount m_acc;
 
         List<SMSSendCommand> m_responses;
 
-        public MORZERecvMessages(ISMSAccount acc, byte[] data) : base(data)
+        public MORZERecvMessages(IMORZEAccount acc, byte[] data) : base(data)
         {
             int off=0;
             byte[] msg;

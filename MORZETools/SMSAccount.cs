@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.IO;
+using System.Threading;
 
 namespace SMS
 {
-    public class SMSAccount : ISMSAccount
+    public class SMSAccount : IMORZEAccount
     {
         byte[] m_publicKey;
         byte[] m_ppKey;
@@ -17,6 +18,8 @@ namespace SMS
         string m_KeyName;
         byte[] m_Entropy;
         IAddressBook m_addressBook;
+
+        List<MORZEMessages> m_Messages;
         
         /// <summary>
         /// генерация адреса абонента
@@ -296,6 +299,26 @@ namespace SMS
         public override string ToString()
         {
             return m_KeyName;
+        }
+
+        public MORZEMessages GetMessages(IMORZEContact contact)
+        {
+
+            Monitor.Enter(this);
+
+            MORZEMessages msgs=null;
+            if (m_Messages == null)
+                m_Messages = new List<MORZEMessages>();
+            else
+                msgs = m_Messages.Where(x => x.Contact.ToString() == contact.ToString()).FirstOrDefault();
+            if (msgs == null)
+            {
+                msgs = new MORZEMessages(this, contact);
+                m_Messages.Add(msgs);
+            }
+            Monitor.Exit(this);
+
+            return msgs;
         }
     }
 }

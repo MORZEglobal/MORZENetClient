@@ -28,6 +28,13 @@ namespace SMS
                 try
                 {
                     SendInitialMessage(to);
+
+                    MORZEMessages msgs;
+                    msgs=m_account.GetMessages(to);
+                    if (msgs!=null)
+                    {
+                        msgs.AddUnsendedNewMessages(msg);
+                    }
                 }
                 catch(Exception exp)
                 {

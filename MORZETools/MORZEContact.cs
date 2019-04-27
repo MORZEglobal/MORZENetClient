@@ -136,6 +136,7 @@ namespace SMS
         RNGCryptoServiceProvider m_rngCsp;
         [NonSerialized()]
         const string m_pref = "MRZR";
+
         public MORZEContact(string Name, string address)
         {
             
@@ -262,7 +263,53 @@ namespace SMS
         public bool isHasExt(byte[] ext)
         {
             bool bret = false;
-
+            Monitor.Enter(this);
+            if (m_Exts!=null)
+            {
+                foreach (ExtKey i in m_Exts)
+                {
+                    if (i != null && i.Ext != null && i.Ext.Length == ext.Length)
+                    {
+                        bool bf = true;
+                        for(int j=0;j<i.Ext.Length && bf==true;j++)
+                        {
+                            if (i.Ext[j] != ext[j])
+                                bf = false;
+                        }
+                        if (bf==true)
+                            bret = bf;
+                    }
+                }
+            }
+            if (bret==false)
+            {
+                if (m_TmpExts != null)
+                {
+                    for(int i=0;i< m_TmpExts.Count && bret==false;i++)
+                    {
+                        if (m_TmpExts[i] != null && m_TmpExts[i].Ext != null && m_TmpExts[i].Ext.Length == ext.Length)
+                        {
+                            bool bf = true;
+                            for (int j = 0; j < m_TmpExts[i].Ext.Length && bf == true; j++)
+                            {
+                                if (m_TmpExts[i].Ext[j] != ext[j])
+                                    bf = false;
+                            }
+                            if (bf == true)
+                            {
+                                bret = bf;
+                                if (m_Exts==null)
+                                {
+                                    m_Exts = new List<ExtKey>();
+                                    m_Exts.Add(m_TmpExts[i]);
+                                    m_TmpExts.RemoveAt(i);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            Monitor.Exit(this);
             return bret;
         }
         public bool PutReciveMessage(byte[] msg, byte[] hash, SMSHash hashid, byte[] ext)
@@ -275,5 +322,6 @@ namespace SMS
         {
             return m_DisplayName;
         }
+
     }
 }

@@ -9,10 +9,10 @@ namespace SMS
 {
     public class SMSInitialMessage : MORZESendMessage
     {
-        ISMSAccount m_account;
+        IMORZEAccount m_account;
 
         ExtKey m_newExt;
-        public SMSInitialMessage(ISMSAccount account, IMORZEContact contact)
+        public SMSInitialMessage(IMORZEAccount account, IMORZEContact contact)
         {
             BufferBuilder bb =new BufferBuilder();
             
