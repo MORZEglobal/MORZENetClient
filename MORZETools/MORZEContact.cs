@@ -322,6 +322,13 @@ namespace SMS
         {
             return m_DisplayName;
         }
+        public string DisplayName
+        {
+            set
+            {
+                m_DisplayName=value;
+            }
+        }
 
     }
 }
