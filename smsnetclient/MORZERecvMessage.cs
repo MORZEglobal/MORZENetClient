@@ -274,12 +274,19 @@ namespace SMS
                 //cmdMsgTyp2.WriteBytes(bb.GetAllBytes()); 
                 byte[] res;
                 if (string.IsNullOrEmpty(SMSCrypt.SyncEncode(syncid, bb.GetAllBytes(), sync, iv, out res)) == true)
-                {
+                {//send notify to client
                     cmdMsgTyp2.AddMessageBody(res, hashid, ext);
                     if (m_responses == null)
                         m_responses = new List<SMSSendCommand>();
 
+                    //set server filter setting
+                    SMSSendExt setext = new SMSSendExt();
+                    setext.pushExt(hashid, ext);
+                    m_responses.Add(setext);
                     m_responses.Add(cmdMsgTyp2);
+
+
+                    
                 }
                 else
                     isSuccess = false;

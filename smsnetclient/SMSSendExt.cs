@@ -20,13 +20,25 @@ namespace SMS
             
             m_net = net;
         }
+        public SMSSendExt() : base(0x06)
+        {
+            m_hsh = new List<SMSHash>();
+            m_exts = new List<byte[]>();
+        }
+        public ISMSNet SMSNet
+        {
+            set
+            {
+                m_net = value;
+            }
+        }
         public void pushExt(SMSHash hash, byte [] extval)
         {
             m_hsh.Add(hash);
             m_exts.Add(extval);
 
         }
-        public new void Send(Stream sm)
+        public override void Send(Stream sm)
         {
             BufferBuilder bb;
 

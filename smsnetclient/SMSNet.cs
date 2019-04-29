@@ -140,6 +140,12 @@ namespace SMS
                             List<SMSSendCommand> res = rm.Responses;
                             foreach (SMSSendCommand cm in res)
                             {
+                                SMSSendExt setext = cm as SMSSendExt;
+                                if (setext != null)
+                                {
+                                    setext.SMSNet = this;
+                                    
+                                }
                                 cm.Send(m_netStream);
                             }
                         }

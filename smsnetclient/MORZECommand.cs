@@ -45,7 +45,7 @@ namespace SMS
             else
                 m_mem.Write(bt, 0, bt.Length);
         }
-        public void Send(Stream sm)
+        public virtual void Send(Stream sm)
         {
             if (m_bodies == null)
             {
