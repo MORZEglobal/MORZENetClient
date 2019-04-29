@@ -39,6 +39,10 @@ namespace SMS
                 m_stat = value;
             }
         }
+        public override string ToString()
+        {
+            return m_Msg;
+        }
     }
     public class MORZEMessages
     {
@@ -71,6 +75,18 @@ namespace SMS
                 m_messages = new List<MORZEMessage>();
             m_messages.Add(msg);
             Monitor.Exit(this);
+        }
+        public List<MORZEMessage> UnsendedNewMessages
+        {
+            get
+            {
+                List<MORZEMessage> ret=null;
+                if (m_messages != null)
+                {
+                    ret = m_messages.Where(x => x.Status == MORZEMessageStatus.unsendedNew).ToList();
+                }
+                return ret;
+            }
         }
     }
 }
