@@ -162,6 +162,10 @@ namespace morzeui
             lvi.Tag = contact;
             lvi.ToolTipText = contact.GetAddress();
             lvContact.Items.Add(lvi);
+
+            MORZEContact mrz = contact as MORZEContact;
+            mrz.OnRecvNotifyAcceptecExtKey += OnRecvNotifyAcceptecExtKey;
+            mrz.OnRecvMessage += OnRecvMessage;
         }
 
         private void lvContact_DoubleClick(object sender, EventArgs e)
@@ -234,6 +238,21 @@ namespace morzeui
 
                 }
                 dlg.Dispose();
+            }
+        }
+        private void OnRecvMessage(IMORZEContact sender, string message)
+        {
+            
+        }
+
+        private void OnRecvNotifyAcceptecExtKey(IMORZEContact sender)
+        {
+            List<MORZEMessage> msgs;
+            msgs=m_account.GetUnsendedNewMessages(sender);
+            if (msgs!=null)
+            {
+                string err;
+                err= m_net.SendMessage(tbMessage.Text, sender);
             }
         }
     }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace SMS
 {
+    public delegate void RecvNotifyAcceptecExtKey(IMORZEContact sender);
+    public delegate void RecvMessage(IMORZEContact sender, string message);
     public interface IMORZEContact
     {
         byte[] EncryptPK(byte[] input);
@@ -24,6 +26,6 @@ namespace SMS
         /// <param name="ext"></param>
         /// <returns>true - сообщение было успешно декодировано</returns>
         bool PutReciveMessage(byte[] msg, byte[] hash, SMSHash hashid, byte[] ext);
-
+        byte[] getMORZENetMessage(string msg);
     }
 }

@@ -320,5 +320,24 @@ namespace SMS
 
             return msgs;
         }
+        public List<MORZEMessage> GetUnsendedNewMessages(IMORZEContact contact)
+        {
+
+            List<MORZEMessage> lmsg = null;
+            Monitor.Enter(this);
+
+            MORZEMessages msgs = null;
+            if (m_Messages != null)
+            {
+                msgs = m_Messages.Where(x => x.Contact.ToString() == contact.ToString() ).FirstOrDefault();
+                if (msgs == null)
+                {
+                    lmsg = msgs.UnsendedNewMessages;
+                }
+            }
+            Monitor.Exit(this);
+
+            return lmsg;
+        }
     }
 }

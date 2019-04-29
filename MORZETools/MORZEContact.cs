@@ -137,6 +137,8 @@ namespace SMS
         [NonSerialized()]
         const string m_pref = "MRZR";
 
+        public event RecvNotifyAcceptecExtKey OnRecvNotifyAcceptecExtKey;
+        public event RecvMessage OnRecvMessage;
         public MORZEContact(string Name, string address)
         {
             
@@ -264,23 +266,8 @@ namespace SMS
         {
             bool bret = false;
             Monitor.Enter(this);
-            if (m_Exts!=null)
-            {
-                foreach (ExtKey i in m_Exts)
-                {
-                    if (i != null && i.Ext != null && i.Ext.Length == ext.Length)
-                    {
-                        bool bf = true;
-                        for(int j=0;j<i.Ext.Length && bf==true;j++)
-                        {
-                            if (i.Ext[j] != ext[j])
-                                bf = false;
-                        }
-                        if (bf==true)
-                            bret = bf;
-                    }
-                }
-            }
+            if (getExt(ext) !=null)
+                bret = true;
             if (bret==false)
             {
                 if (m_TmpExts != null)
@@ -315,7 +302,31 @@ namespace SMS
         public bool PutReciveMessage(byte[] msg, byte[] hash, SMSHash hashid, byte[] ext)
         {
             bool bRes = false;
-
+            ExtKey key = getExt(ext);
+            if (SMSCrypt.CheckHash(hashid,msg, hash)==true)
+            {
+                byte []res;
+                string err;
+                err = SMSCrypt.SyncDecode(key.SyncID, msg, key.SyncKey, key.SyncIV, out res);
+                if (string.IsNullOrEmpty(err) == true)
+                {
+                    if (res.Length!=0)
+                    {
+                        switch (res[0])
+                        {
+                            case 2://Type 2 - уведомление о получении ключей
+                                bRes=recvNotifyRecvExtKeys(key, res);
+                                
+                                break;
+                            case 3://Type 3 - new messages
+                                recvNewMessage(res);
+                                break;
+                            case 4://Type 4 уведомление о принятых сообщениях .
+                                break;
+                        }
+                    }
+                }
+            }
             return bRes;
         }
         public override string ToString()
@@ -330,5 +341,89 @@ namespace SMS
             }
         }
 
+
+        private ExtKey getExt(byte[] ext)
+        {
+            ExtKey key = null;
+            if (m_Exts != null)
+            {
+                foreach (ExtKey i in m_Exts)
+                {
+                    if (i != null && i.Ext != null && i.Ext.Length == ext.Length)
+                    {
+                        bool bf = true;
+                        for (int j = 0; j < i.Ext.Length && bf == true; j++)
+                        {
+                            if (i.Ext[j] != ext[j])
+                                bf = false;
+                        }
+                        if (bf == true)
+                            key = i;
+                    }
+                }
+            }
+            return key;
+        }
+        private bool recvNotifyRecvExtKeys(ExtKey key, byte[] msg)
+        {
+            bool bres = false;
+            try
+            {
+                byte[] rcvhash=null;
+                SMSHash hashid = (SMSHash)msg[1];
+                switch (hashid)
+                {
+                    case SMSHash.MD5:
+                        rcvhash = new byte[0x10];
+                        break;
+                }
+                if (rcvhash != null)
+                {
+                    Array.Copy(msg, 2, rcvhash, 0, rcvhash.Length);
+                    bres = SMSCrypt.CheckHash(hashid, key.SyncKey, rcvhash);
+                }
+                if (bres == true && OnRecvNotifyAcceptecExtKey != null)
+                    OnRecvNotifyAcceptecExtKey(this);
+            }
+            catch
+            {
+                bres = false;
+            }
+
+            return bres;
+        }
+        private void recvNewMessage(byte[] msg)
+        {
+        }
+        public byte[] getMORZENetMessage(string msg)
+        {
+            byte []netmsg = null;
+
+            if (m_Exts!=null&& m_Exts.Any()==true)
+            {
+                byte[] bmsg=null;
+                string err;
+                ExtKey key = m_Exts[m_Exts.Count - 1];
+                bmsg=Encoding.ASCII.GetBytes(msg);
+                uint numofMessage = 0;
+
+                netmsg = new byte[bmsg.Length + 5];
+                netmsg[0] = 3; //type of message  - text message
+
+                byte[] num;
+                num=BitConverter.GetBytes(numofMessage);
+
+                Array.Copy(num, 0, netmsg, 1, num.Length);
+
+                Array.Copy(bmsg, 0, netmsg, 5, bmsg.Length);
+
+
+                err = SMSCrypt.SyncEncode(key.SyncID, bmsg.ToString(), key.SyncKey, key.SyncIV, out netmsg);
+                if (string.IsNullOrEmpty(err) == false)
+                    netmsg = null;
+            }
+
+            return netmsg;
+        }
     }
 }

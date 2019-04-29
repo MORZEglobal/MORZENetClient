@@ -15,11 +15,11 @@ namespace SMS
         IDisposable
     {
         /// <summary>
-        /// отправка сообщения
+        /// message send
         /// </summary>
-        /// <param name="msg">текст сообщения</param>
-        /// <param name="to">контакт получателя</param>
-        /// <returns>описание ошибки</returns>
+        /// <param name="msg">mesage's plain text</param>
+        /// <param name="to">reciver</param>
+        /// <returns>error description</returns>
         public string SendMessage (string msg, IMORZEContact to)
         {
             string err = null;
@@ -37,6 +37,23 @@ namespace SMS
                     }
                 }
                 catch(Exception exp)
+                {
+                    OnConnectChange(false, exp.Message);
+                }
+            }
+            return err;
+        }
+
+        public string SendMessage(MORZEMessage msg, IMORZEContact to)
+        {
+            string err = null;
+            if (to.isHasConfirmEtx() == true)
+            {
+                try
+                {
+                    byte []netmsg = to.getMORZENetMessage(msg.ToString());
+                }
+                catch (Exception exp)
                 {
                     OnConnectChange(false, exp.Message);
                 }
