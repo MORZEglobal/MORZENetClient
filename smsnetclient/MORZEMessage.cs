@@ -41,6 +41,14 @@ namespace SMS
                     OnConnectChange(false, exp.Message);
                 }
             }
+            else
+            {
+                ExtKey ext;
+                byte[] netmsg = to.getMORZENetMessage(msg.ToString(), out ext);
+                MORZESendMessage m = new MORZESendMessage();
+                m.AddMessageBody(netmsg, ext.HashID, ext.Ext);
+                m.Send(m_netStream);
+            }
             return err;
         }
 
