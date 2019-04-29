@@ -244,7 +244,7 @@ namespace morzeui
                 dlg.Dispose();
             }
         }
-        private void OnRecvMessage(IMORZEContact sender, string message)
+        private void OnRecvMessage(IMORZEContact sender, string message, uint param)
         {
             
         }

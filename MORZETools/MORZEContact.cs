@@ -319,7 +319,7 @@ namespace SMS
                                 
                                 break;
                             case 3://Type 3 - new messages
-                                recvNewMessage(res);
+                                recvNewMessage(key, res);
                                 break;
                             case 4://Type 4 уведомление о принятых сообщениях .
                                 break;
@@ -392,8 +392,13 @@ namespace SMS
 
             return bres;
         }
-        private void recvNewMessage(byte[] msg)
+        private void recvNewMessage(ExtKey key,byte[] msg)
         {
+            uint nummsg = BitConverter.ToUInt32(msg, 1);
+            string text = Encoding.ASCII.GetString(msg, 5, msg.Length - 5);
+            if (OnRecvMessage != null)
+                OnRecvMessage(this, text, nummsg);
+
         }
         public byte[] getMORZENetMessage(string msg, out ExtKey ext)
         {
