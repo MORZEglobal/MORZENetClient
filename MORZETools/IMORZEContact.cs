@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SMS
 {
     public delegate void RecvNotifyAcceptecExtKey(IMORZEContact sender);
-    public delegate void RecvMessage(IMORZEContact sender, string message);
+    public delegate void RecvMessage(IMORZEContact sender, string message, uint param);
     public interface IMORZEContact
     {
         byte[] EncryptPK(byte[] input);
