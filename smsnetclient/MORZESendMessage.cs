@@ -34,7 +34,7 @@ namespace SMS
                             bthash = calcMD5(msgBody);
                             break;
                         default:
-                            throw new Exception("Неподдерживаемый алгоритм хеширования");
+                            throw new Exception("Unsupported hash algorithm");
                             
                     }
                     if (ext != null)
@@ -42,7 +42,7 @@ namespace SMS
                         byte e = 0x80;
                         idhash |= e;
                         if (ext.Length!=bthash.Length)
-                            throw new Exception("Неверный ext");
+                            throw new Exception("Invalid ext");
                     }
                     bb.AddByte(idhash);
 
@@ -62,7 +62,7 @@ namespace SMS
             }
             else
             {
-                throw new Exception("Не указан алгоритм хеширования");
+                throw new Exception("did't select hash algorithm");
             }
         }
         private byte [] calcMD5(byte[] input)

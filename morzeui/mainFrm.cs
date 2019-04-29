@@ -74,8 +74,12 @@ namespace morzeui
 
         private void mainFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
+
             if (m_book != null)
                 m_book.Save();
+
+            foreach (dlgMessage dlg in m_dlgMsgs)
+                dlg.Dispose();
         }
         private void LoadAccount()
         {
@@ -252,7 +256,12 @@ namespace morzeui
             if (msgs!=null)
             {
                 string err;
-                err= m_net.SendMessage(tbMessage.Text, sender);
+                foreach (MORZEMessage msg in msgs)
+                {
+                    err = m_net.SendMessage(msg, sender);
+                    if (string.IsNullOrEmpty(err) == false)
+                        msg.Status = MORZEMessageStatus.sended;
+                }
             }
         }
     }

@@ -395,13 +395,14 @@ namespace SMS
         private void recvNewMessage(byte[] msg)
         {
         }
-        public byte[] getMORZENetMessage(string msg)
+        public byte[] getMORZENetMessage(string msg, out ExtKey ext)
         {
-            byte []netmsg = null;
-
+            byte[] enetmsg = null;
+            ext = null;
             if (m_Exts!=null&& m_Exts.Any()==true)
             {
                 byte[] bmsg=null;
+                byte[] netmsg = null;
                 string err;
                 ExtKey key = m_Exts[m_Exts.Count - 1];
                 bmsg=Encoding.ASCII.GetBytes(msg);
@@ -418,12 +419,14 @@ namespace SMS
                 Array.Copy(bmsg, 0, netmsg, 5, bmsg.Length);
 
 
-                err = SMSCrypt.SyncEncode(key.SyncID, bmsg.ToString(), key.SyncKey, key.SyncIV, out netmsg);
+                err = SMSCrypt.SyncEncode(key.SyncID, netmsg, key.SyncKey, key.SyncIV, out enetmsg);
                 if (string.IsNullOrEmpty(err) == false)
-                    netmsg = null;
+                    enetmsg = null;
+                else
+                    ext = key;
             }
 
-            return netmsg;
+            return enetmsg;
         }
     }
 }

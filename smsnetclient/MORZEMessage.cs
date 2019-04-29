@@ -51,7 +51,11 @@ namespace SMS
             {
                 try
                 {
-                    byte []netmsg = to.getMORZENetMessage(msg.ToString());
+                    ExtKey ext;
+                    byte []netmsg = to.getMORZENetMessage(msg.ToString(), out ext);
+                    MORZESendMessage m = new MORZESendMessage();
+                    m.AddMessageBody(netmsg, ext.HashID, ext.Ext);
+                    m.Send(m_netStream);
                 }
                 catch (Exception exp)
                 {

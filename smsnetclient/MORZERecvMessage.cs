@@ -7,14 +7,6 @@ using System.Threading.Tasks;
 
 namespace SMS
 {
-    class MORZEMessage
-    {
-        public MORZEMessage(byte ttl,  byte []msg, byte []ext)
-        {
-
-        }
-
-    }
     class MORZERecvMessages : MORZECommand
     {
         List<byte[]> m_msgAsyncData;
