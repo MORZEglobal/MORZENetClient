@@ -17,7 +17,7 @@ namespace SMS
             BufferBuilder bb =new BufferBuilder();
             
             m_account = account;
-            bb.AddByte(1);//- инициирующее сообщение
+            bb.AddByte(1);//- init message
             m_newExt = contact.getInitalData();
             bb.AddByte((byte)m_newExt.HashID);
             bb.AddBytes(m_newExt.Ext);

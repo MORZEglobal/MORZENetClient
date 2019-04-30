@@ -20,10 +20,11 @@ namespace morzeui
             
             InitializeComponent();
 
-            Text = "Новый контакт";
+            Text = "New contact";
+            btnRefresh.Enabled = false;
         }
 
-        private void btnOk_Click(object sender, EventArgs e)
+        protected virtual void btnOk_Click(object sender, EventArgs e)
         {
             IMORZEContact cnt=null;
             try
@@ -39,7 +40,7 @@ namespace morzeui
                     }
                 }
                 else
-                    MessageBox.Show("Имя пустое", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Name is empty", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception exp)
             {
@@ -62,6 +63,82 @@ namespace morzeui
             set
             {
                 m_cnt = value;
+            }
+        }
+        protected virtual void btnRefresh_Click(object sender, EventArgs e)
+        {
+
+        }
+
+    }
+
+    public class dlgAccount : dlgContact
+    {
+        SMSAccount m_Acc;
+        string m_accName;
+        public dlgAccount () : base()
+        {
+            Text = "New Account";
+            btnRefresh.Enabled = true;
+            tbAddress.ReadOnly = true;
+            
+        }
+        public dlgAccount(IMORZEAccount acc) : base()
+        {
+            Text = acc.ToString();
+            btnRefresh.Enabled = false;
+            tbName.ReadOnly = true;
+            tbAddress.ReadOnly = true;
+            tbName.Text = acc.ToString();
+            tbAddress.Text = acc.GetMyAccount();
+            
+        }
+
+        protected override void btnOk_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(tbAddress.Text)==false)
+            {
+                if (m_Acc != null)
+                {
+                    if (tbName.Text == m_Acc.ToString())
+                    {
+                        if (m_Acc != null)
+                        {
+                            m_accName = m_Acc.ToString();
+                            m_Acc.SaveKey(null);
+                            m_Acc = null;
+                        }
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else
+                        MessageBox.Show("Name is invalid. You should regenerate address", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    DialogResult = DialogResult.Cancel;
+                    Close();
+                }
+            }
+            else
+                MessageBox.Show("Address is empty", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        protected override void btnRefresh_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbName.Text)==false)
+            {
+                m_Acc = new SMSAccount(tbName.Text);
+                tbAddress.Text=m_Acc.GenerateKey();
+                
+            }
+            else
+                MessageBox.Show("Name is empty", Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+        public string AccountName
+        {
+            get
+            {
+                return m_accName;
             }
         }
     }

@@ -78,5 +78,17 @@ namespace morzeui
                 Close();
             }
         }
+
+        private void newAccountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dlgAccount acc = new dlgAccount();
+            if (acc.ShowDialog()== DialogResult.OK)
+            {
+                m_selectedAccount = acc.AccountName;
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            acc.Dispose();
+        }
     }
 }

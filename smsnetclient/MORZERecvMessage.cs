@@ -164,7 +164,7 @@ namespace SMS
             {
                 switch (data[0]) //поле Type
                 {
-                    case 1:  // передача симметричного ключа и метки сообщений
+                    case 1:  // transfer sync key and ext
                         isSuccess = operateAsyncType1(data, tail);
                         break;
                     default:
@@ -334,7 +334,7 @@ namespace SMS
             bool bret = false;
             crc16 = BitConverter.ToUInt16(data, data.Length - 2);
 
-            if (crc16==0)/// версия 0.1  только значение 0
+            if (crc16==0)/// version 0.1  only 0
             {
                 bret = true;
             }

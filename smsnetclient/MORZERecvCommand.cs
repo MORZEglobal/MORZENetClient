@@ -42,7 +42,7 @@ namespace SMS
                         case 0x81:
                             cmd = new SMSRecvHello(data);
                             break;
-                        case 0x82://приято сообщение
+                        case 0x82://message was recived
                             cmd = new MORZERecvMessages(m_account , data);
                             break;
                         case 0x85:

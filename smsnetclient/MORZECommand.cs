@@ -41,7 +41,7 @@ namespace SMS
         {
             byte[] bt = BitConverter.GetBytes(data);
             if (bt.Length != 2)
-                throw new Exception("Ошибка преоброзования в массив 2 байт");
+                throw new Exception("error of converting two bytes to an array");
             else
                 m_mem.Write(bt, 0, bt.Length);
         }
@@ -91,7 +91,7 @@ namespace SMS
                 }
                 else
                 {
-                    throw new Exception("Неверная длина данных");
+                    throw new Exception("data length is invalid");
                 }
             }
             

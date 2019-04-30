@@ -43,6 +43,8 @@
             this.cmsLV = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.чатToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.параметрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.cmsLV.SuspendLayout();
             this.SuspendLayout();
@@ -96,7 +98,9 @@
             this.tsConnect.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tsConnect.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnConnect,
-            this.mnDisconnect});
+            this.mnDisconnect,
+            this.toolStripMenuItem1,
+            this.accountToolStripMenuItem});
             this.tsConnect.Image = global::morzeui.Properties.Resources.red;
             this.tsConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsConnect.Name = "tsConnect";
@@ -106,14 +110,14 @@
             // mnConnect
             // 
             this.mnConnect.Name = "mnConnect";
-            this.mnConnect.Size = new System.Drawing.Size(125, 22);
+            this.mnConnect.Size = new System.Drawing.Size(152, 22);
             this.mnConnect.Text = "В сети";
             this.mnConnect.Click += new System.EventHandler(this.mnConnect_Click);
             // 
             // mnDisconnect
             // 
             this.mnDisconnect.Name = "mnDisconnect";
-            this.mnDisconnect.Size = new System.Drawing.Size(125, 22);
+            this.mnDisconnect.Size = new System.Drawing.Size(152, 22);
             this.mnDisconnect.Text = "Не в сети";
             this.mnDisconnect.Click += new System.EventHandler(this.mnDisconnect_Click);
             // 
@@ -146,21 +150,33 @@
             this.чатToolStripMenuItem,
             this.параметрыToolStripMenuItem});
             this.cmsLV.Name = "cmsLV";
-            this.cmsLV.Size = new System.Drawing.Size(153, 70);
+            this.cmsLV.Size = new System.Drawing.Size(148, 48);
             // 
             // чатToolStripMenuItem
             // 
             this.чатToolStripMenuItem.Name = "чатToolStripMenuItem";
-            this.чатToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.чатToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.чатToolStripMenuItem.Text = "Чат...";
             this.чатToolStripMenuItem.Click += new System.EventHandler(this.lvContact_DoubleClick);
             // 
             // параметрыToolStripMenuItem
             // 
             this.параметрыToolStripMenuItem.Name = "параметрыToolStripMenuItem";
-            this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.параметрыToolStripMenuItem.Text = "Параметры...";
             this.параметрыToolStripMenuItem.Click += new System.EventHandler(this.параметрыToolStripMenuItem_Click);
+            // 
+            // accountToolStripMenuItem
+            // 
+            this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.accountToolStripMenuItem.Text = "Account...";
+            this.accountToolStripMenuItem.Click += new System.EventHandler(this.accountToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // mainFrm
             // 
@@ -196,6 +212,8 @@
         private System.Windows.Forms.ContextMenuStrip cmsLV;
         private System.Windows.Forms.ToolStripMenuItem чатToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem параметрыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem accountToolStripMenuItem;
     }
 }
 

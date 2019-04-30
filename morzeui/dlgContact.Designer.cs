@@ -34,6 +34,7 @@
             this.tbAddress = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,9 +43,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 13);
+            this.label1.Size = new System.Drawing.Size(70, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Отображаемое имя";
+            this.label1.Text = "Display name";
             // 
             // tbName
             // 
@@ -58,10 +59,10 @@
             this.gb.Controls.Add(this.tbAddress);
             this.gb.Location = new System.Drawing.Point(13, 51);
             this.gb.Name = "gb";
-            this.gb.Size = new System.Drawing.Size(466, 182);
+            this.gb.Size = new System.Drawing.Size(436, 182);
             this.gb.TabIndex = 2;
             this.gb.TabStop = false;
-            this.gb.Text = "MORZE адрес";
+            this.gb.Text = "MORZE address";
             // 
             // tbAddress
             // 
@@ -70,7 +71,7 @@
             this.tbAddress.MaxLength = 512;
             this.tbAddress.Multiline = true;
             this.tbAddress.Name = "tbAddress";
-            this.tbAddress.Size = new System.Drawing.Size(460, 163);
+            this.tbAddress.Size = new System.Drawing.Size(430, 163);
             this.tbAddress.TabIndex = 0;
             // 
             // btnCancel
@@ -94,6 +95,16 @@
             this.btnOk.UseVisualStyleBackColor = true;
             this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Image = global::morzeui.Properties.Resources.refresh;
+            this.btnRefresh.Location = new System.Drawing.Point(456, 67);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(23, 23);
+            this.btnRefresh.TabIndex = 5;
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // dlgContact
             // 
             this.AcceptButton = this.btnOk;
@@ -101,6 +112,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(511, 304);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.gb);
@@ -123,10 +135,11 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbName;
+        protected System.Windows.Forms.TextBox tbName;
         private System.Windows.Forms.GroupBox gb;
-        private System.Windows.Forms.TextBox tbAddress;
+        protected System.Windows.Forms.TextBox tbAddress;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
+        protected System.Windows.Forms.Button btnRefresh;
     }
 }

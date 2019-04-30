@@ -28,16 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lv = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.cmsAccount = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.newAccountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsAccount.SuspendLayout();
             this.SuspendLayout();
             // 
             // lv
             // 
             this.lv.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
+            this.lv.ContextMenuStrip = this.cmsAccount;
             this.lv.Dock = System.Windows.Forms.DockStyle.Top;
             this.lv.FullRowSelect = true;
             this.lv.GridLines = true;
@@ -76,6 +81,20 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // cmsAccount
+            // 
+            this.cmsAccount.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newAccountToolStripMenuItem});
+            this.cmsAccount.Name = "cmsAccount";
+            this.cmsAccount.Size = new System.Drawing.Size(154, 48);
+            // 
+            // newAccountToolStripMenuItem
+            // 
+            this.newAccountToolStripMenuItem.Name = "newAccountToolStripMenuItem";
+            this.newAccountToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.newAccountToolStripMenuItem.Text = "New account...";
+            this.newAccountToolStripMenuItem.Click += new System.EventHandler(this.newAccountToolStripMenuItem_Click);
+            // 
             // frmAccountSelect
             // 
             this.AcceptButton = this.btnOk;
@@ -94,6 +113,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Account select";
             this.Load += new System.EventHandler(this.frmAccountSelect_Load);
+            this.cmsAccount.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -104,5 +124,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ContextMenuStrip cmsAccount;
+        private System.Windows.Forms.ToolStripMenuItem newAccountToolStripMenuItem;
     }
 }

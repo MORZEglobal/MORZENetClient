@@ -77,9 +77,11 @@ namespace morzeui
 
             if (m_book != null)
                 m_book.Save();
-
-            foreach (dlgMessage dlg in m_dlgMsgs)
-                dlg.Dispose();
+            if (m_dlgMsgs != null)
+            {
+                foreach (dlgMessage dlg in m_dlgMsgs)
+                    dlg.Dispose();
+            }
         }
         private void LoadAccount()
         {
@@ -108,15 +110,22 @@ namespace morzeui
         }
         private void Connect()
         {
-            if (m_net==null)
+            if (m_account == null)
             {
-                m_net = new SMSNet(m_account);
-                m_net.OnConnected += OnConnected;
-                m_net.OnDisconnected += OnDisconnected;
-                tsConnect.Image = Properties.Resources.yellow;
+                LoadAccount();
+            }
+            else
+            {
+                if (m_net == null)
+                {
+                    m_net = new SMSNet(m_account);
+                    m_net.OnConnected += OnConnected;
+                    m_net.OnDisconnected += OnDisconnected;
+                    tsConnect.Image = Properties.Resources.yellow;
 
-                Cursor = Cursors.WaitCursor;
-                m_net.Connect("127.0.0.1", 5555);
+                    Cursor = Cursors.WaitCursor;
+                    m_net.Connect("127.0.0.1", 5555);
+                }
             }
         }
         private void Disconnect()
@@ -262,6 +271,16 @@ namespace morzeui
                     if (string.IsNullOrEmpty(err) == false)
                         msg.Status = MORZEMessageStatus.sended;
                 }
+            }
+        }
+
+        private void accountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_account!=null)
+            {
+                dlgAccount acc = new morzeui.dlgAccount(m_account);
+                acc.ShowDialog();
+                acc.Dispose();
             }
         }
     }
