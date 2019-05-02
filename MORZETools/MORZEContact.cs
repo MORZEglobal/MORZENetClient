@@ -149,8 +149,9 @@ namespace SMS
             if (address.IndexOf(m_pref)==0)
             {
                 m_alg = SMSAsyncAlgo.RSA;
-                InitRSA();
                 m_address = address;
+                InitRSA();
+                
 
                 m_rngCsp = new RNGCryptoServiceProvider();
 
