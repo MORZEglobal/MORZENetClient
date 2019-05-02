@@ -160,8 +160,11 @@ namespace morzeui
 
                     foreach (MORZEContact cnt in m_book.Contacts)
                     {
-                        foreach (ExtKey key in cnt.ExtKeys)
-                            m_net.setExtParam(key);
+                        if (cnt.ExtKeys != null)
+                        {
+                            foreach (ExtKey key in cnt.ExtKeys)
+                                m_net.setExtParam(key);
+                        }
                     }
                 }));
         }

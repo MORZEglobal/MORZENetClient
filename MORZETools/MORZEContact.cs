@@ -217,7 +217,11 @@ namespace SMS
                 bres = m_Exts.Any();
             return bres;
         }
-        
+        public void clearAllExt()
+        {
+            m_Exts.Clear();
+            m_Exts = null;
+        }
         public ExtKey getInitalData()
         {
             

@@ -31,7 +31,7 @@ namespace morzeui
             {
                 if (string.IsNullOrEmpty(tbName.Text) == false)
                 {
-                    if (m_cnt == null)
+                    if (m_cnt != null)
                     {
                         cnt = new MORZEContact(tbName.Text, tbAddress.Text);
                         m_cnt = cnt;
@@ -85,6 +85,20 @@ namespace morzeui
                     tbAddress.Text = mcnt.GetAddress();
                 }
             }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            MORZEContact mcnt;
+            Text = m_cnt.ToString();
+            mcnt = m_cnt as MORZEContact;
+            if (mcnt != null)
+            {
+                mcnt.clearAllExt();
+                lbConfCount.Text = mcnt.ConfirmedKeysCount.ToString();
+                lbUnconfCount.Text = mcnt.UnconfirmedKeysCount.ToString();
+            }
+
         }
     }
 

@@ -36,10 +36,11 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.gbExt = new System.Windows.Forms.GroupBox();
-            this.lbcfrm = new System.Windows.Forms.Label();
-            this.lbun = new System.Windows.Forms.Label();
-            this.lbConfCount = new System.Windows.Forms.Label();
             this.lbUnconfCount = new System.Windows.Forms.Label();
+            this.lbConfCount = new System.Windows.Forms.Label();
+            this.lbun = new System.Windows.Forms.Label();
+            this.lbcfrm = new System.Windows.Forms.Label();
+            this.btnClear = new System.Windows.Forms.Button();
             this.gb.SuspendLayout();
             this.gbExt.SuspendLayout();
             this.SuspendLayout();
@@ -113,6 +114,7 @@
             // 
             // gbExt
             // 
+            this.gbExt.Controls.Add(this.btnClear);
             this.gbExt.Controls.Add(this.lbUnconfCount);
             this.gbExt.Controls.Add(this.lbConfCount);
             this.gbExt.Controls.Add(this.lbun);
@@ -124,23 +126,14 @@
             this.gbExt.TabStop = false;
             this.gbExt.Text = "Session keys";
             // 
-            // lbcfrm
+            // lbUnconfCount
             // 
-            this.lbcfrm.AutoSize = true;
-            this.lbcfrm.Location = new System.Drawing.Point(6, 19);
-            this.lbcfrm.Name = "lbcfrm";
-            this.lbcfrm.Size = new System.Drawing.Size(53, 13);
-            this.lbcfrm.TabIndex = 0;
-            this.lbcfrm.Text = "confirmed";
-            // 
-            // lbun
-            // 
-            this.lbun.AutoSize = true;
-            this.lbun.Location = new System.Drawing.Point(7, 39);
-            this.lbun.Name = "lbun";
-            this.lbun.Size = new System.Drawing.Size(65, 13);
-            this.lbun.TabIndex = 1;
-            this.lbun.Text = "unconfirmed";
+            this.lbUnconfCount.AutoSize = true;
+            this.lbUnconfCount.Location = new System.Drawing.Point(99, 39);
+            this.lbUnconfCount.Name = "lbUnconfCount";
+            this.lbUnconfCount.Size = new System.Drawing.Size(13, 13);
+            this.lbUnconfCount.TabIndex = 3;
+            this.lbUnconfCount.Text = "0";
             // 
             // lbConfCount
             // 
@@ -151,14 +144,33 @@
             this.lbConfCount.TabIndex = 2;
             this.lbConfCount.Text = "0";
             // 
-            // lbUnconfCount
+            // lbun
             // 
-            this.lbUnconfCount.AutoSize = true;
-            this.lbUnconfCount.Location = new System.Drawing.Point(99, 39);
-            this.lbUnconfCount.Name = "lbUnconfCount";
-            this.lbUnconfCount.Size = new System.Drawing.Size(13, 13);
-            this.lbUnconfCount.TabIndex = 3;
-            this.lbUnconfCount.Text = "0";
+            this.lbun.AutoSize = true;
+            this.lbun.Location = new System.Drawing.Point(7, 39);
+            this.lbun.Name = "lbun";
+            this.lbun.Size = new System.Drawing.Size(65, 13);
+            this.lbun.TabIndex = 1;
+            this.lbun.Text = "unconfirmed";
+            // 
+            // lbcfrm
+            // 
+            this.lbcfrm.AutoSize = true;
+            this.lbcfrm.Location = new System.Drawing.Point(6, 19);
+            this.lbcfrm.Name = "lbcfrm";
+            this.lbcfrm.Size = new System.Drawing.Size(53, 13);
+            this.lbcfrm.TabIndex = 0;
+            this.lbcfrm.Text = "confirmed";
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(183, 14);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 4;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // dlgContact
             // 
@@ -205,5 +217,6 @@
         private System.Windows.Forms.Label lbConfCount;
         private System.Windows.Forms.Label lbun;
         private System.Windows.Forms.Label lbcfrm;
+        private System.Windows.Forms.Button btnClear;
     }
 }

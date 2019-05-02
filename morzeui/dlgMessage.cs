@@ -47,13 +47,13 @@ namespace morzeui
                 try
                 {
                     err = m_net.SendMessage(tbMessage.Text, m_cnt);
-                    if (string.IsNullOrEmpty(err) == false)
+                    if (string.IsNullOrEmpty(err) == true)
                     {
                         PutDisplayMessage(m_acc.ToString(), tbMessage.Text);
                         tbMessage.Text = string.Empty;
                     }
                     else
-                        MessageBox.Show(Text, err, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(err, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch (Exception exp)
                 {
@@ -72,9 +72,10 @@ namespace morzeui
         }
         private void PutDisplayMessage(string from, string text)
         {
-            rb.AppendText(string.Format("{0} - {1}", from, DateTime.Now.ToString("DD.MM.YYYY:MM:HH")));
-            rb.AppendText(text);
+            rb.AppendText(string.Format("{0} - {1}", from, DateTime.Now.ToString("dd.MM.yyyy HH:mm")));
             rb.AppendText("\r\n");
+            rb.AppendText(text);
+            
         }
 
         private void tbMessage_KeyPress(object sender, KeyPressEventArgs e)
