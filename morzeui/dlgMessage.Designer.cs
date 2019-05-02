@@ -32,7 +32,7 @@
             this.tbMessage = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnSend = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.rb = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -56,6 +56,7 @@
             this.tbMessage.Name = "tbMessage";
             this.tbMessage.Size = new System.Drawing.Size(598, 100);
             this.tbMessage.TabIndex = 1;
+            this.tbMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbMessage_KeyPress);
             // 
             // panel2
             // 
@@ -77,21 +78,21 @@
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // richTextBox1
+            // rb
             // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(694, 461);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.rb.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rb.Location = new System.Drawing.Point(0, 0);
+            this.rb.Name = "rb";
+            this.rb.Size = new System.Drawing.Size(694, 461);
+            this.rb.TabIndex = 1;
+            this.rb.Text = "";
             // 
             // dlgMessage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 561);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.rb);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -99,6 +100,7 @@
             this.Name = "dlgMessage";
             this.ShowInTaskbar = false;
             this.Text = "dlgMessage";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.dlgMessage_FormClosing);
             this.Load += new System.EventHandler(this.dlgMessage_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -113,6 +115,6 @@
         private System.Windows.Forms.TextBox tbMessage;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox rb;
     }
 }
