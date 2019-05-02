@@ -81,6 +81,8 @@ namespace morzeui
                 {
                     lbConfCount.Text = mcnt.ConfirmedKeysCount.ToString();
                     lbUnconfCount.Text = mcnt.UnconfirmedKeysCount.ToString();
+                    tbName.Text = mcnt.ToString();
+                    tbAddress.Text = mcnt.GetAddress();
                 }
             }
         }

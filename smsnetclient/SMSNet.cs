@@ -92,6 +92,27 @@ namespace SMS
             }
             return err;
         }
+
+        public string setExtParam(ExtKey key)
+        {
+            string err = null;
+            //set server filter setting
+            try
+            {
+                SMSSendExt setext = new SMSSendExt();
+                setext.pushExt(key.HashID, key.Ext);
+                setext.SMSNet = this;
+                setext.Send(m_netStream);
+            }
+            catch (Exception exp)
+            {
+
+                err = exp.Message;
+                OnConnectChange(false, err);
+            }
+            return err;
+
+        }
         private static void thRecvCommand (Object smsobj)
         {
             if ((smsobj is SMSNet) == true)
@@ -131,6 +152,10 @@ namespace SMS
                         m_sendAsyngCmd.Dispose();
                         m_sendAsyngCmd = null;
                         m_sync = srvSync.SyncCryptor;
+
+                        if (OnConnected != null)
+                            OnConnected();
+                        
                     }
                     if (cmd!= null && cmd is MORZERecvMessages == true)
                     {//принято сообщение
@@ -165,8 +190,6 @@ namespace SMS
             {//отправить открытый ключ , для шифрования ключа симметричного алгоритма
                 m_sendAsyngCmd = new MORZESendAsync(m_helloSign);
                 m_sendAsyngCmd.Send(m_netStream);
-                if (OnConnected != null)
-                    OnConnected();
             }
             if (isConnected==false)
             {

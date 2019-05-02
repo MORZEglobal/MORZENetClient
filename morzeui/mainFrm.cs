@@ -157,7 +157,13 @@ namespace morzeui
                     tsConnect.Image = Properties.Resources.Green;
                     Cursor = Cursors.Default;
                     m_account.AddressBook = m_book;
-            }));
+
+                    foreach (MORZEContact cnt in m_book.Contacts)
+                    {
+                        foreach (ExtKey key in cnt.ExtKeys)
+                            m_net.setExtParam(key);
+                    }
+                }));
         }
 
         private void mnConnect_Click(object sender, EventArgs e)
@@ -229,7 +235,7 @@ namespace morzeui
 
         }
 
-        private void параметрыToolStripMenuItem_Click(object sender, EventArgs e)
+        private void properyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lvContact.SelectedItems.Count == 1)
             {

@@ -38,7 +38,7 @@ namespace SMS
             }
             else
             {
-                throw new Exception("Неверные аргументы");
+                throw new Exception("Invalid arguments");
             }
         }
         public ExtKey(SMSHash hash, byte[] ext, SMSSyncAlgo sync, byte[] key, byte[] iv)
@@ -56,7 +56,7 @@ namespace SMS
             }
             else
             {
-                throw new Exception("Неверные аргументы");
+                throw new Exception("Invalid arguments");
             }
         }
         public SMSHash HashID
@@ -120,14 +120,12 @@ namespace SMS
         private string m_DisplayName;
         private byte[] m_publickKey;
         /// <summary>
-        /// подвержденные ключи
+        /// confirmed keys
         /// </summary>
-        [XmlArray("ExtKeys"), XmlArrayItem(typeof(ExtKey), ElementName ="ExtKey")]
         private List<ExtKey> m_Exts;
         /// <summary>
-        /// временные ключи , ожидающие подверждения
+        /// unconfirmed keys
         /// </summary>
-        [XmlArray("TempKeys"), XmlArrayItem(typeof(ExtKey), ElementName ="ExtKey")]
         private List<ExtKey> m_TmpExts;
         [NonSerialized()]
         RSACryptoServiceProvider m_rsa = null;
@@ -137,7 +135,9 @@ namespace SMS
         [NonSerialized()]
         const string m_pref = "MRZR";
 
+        [field: NonSerialized]
         public event RecvNotifyAcceptecExtKey OnRecvNotifyAcceptecExtKey;
+        [field: NonSerialized]
         public event RecvMessage OnRecvMessage;
         public MORZEContact(string Name, string address)
         {
@@ -433,6 +433,13 @@ namespace SMS
             }
 
             return enetmsg;
+        }
+        public List<ExtKey> ExtKeys
+        {
+            get
+            {
+                return m_Exts;
+            }
         }
         public int UnconfirmedKeysCount
         {

@@ -164,7 +164,7 @@
             this.параметрыToolStripMenuItem.Name = "параметрыToolStripMenuItem";
             this.параметрыToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.параметрыToolStripMenuItem.Text = "Параметры...";
-            this.параметрыToolStripMenuItem.Click += new System.EventHandler(this.параметрыToolStripMenuItem_Click);
+            this.параметрыToolStripMenuItem.Click += new System.EventHandler(this.properyToolStripMenuItem_Click);
             // 
             // accountToolStripMenuItem
             // 
