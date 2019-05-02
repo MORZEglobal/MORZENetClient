@@ -74,7 +74,10 @@ namespace morzeui
 
         private void mainFrm_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            if (m_account!=null)
+            {
+                m_account.SaveMessagesHistory();
+            }
             if (m_book != null)
                 m_book.Save();
             if (m_dlgMsgs != null)
@@ -97,6 +100,9 @@ namespace morzeui
                     if (string.IsNullOrEmpty(err) == false)
                         throw new Exception(err);
                     Text=string.Format("{0} - {1}", m_wndTitle, acsel.SelectedAccount);
+                    err=m_account.LoadMessagesHistory();
+                    if (string.IsNullOrEmpty(err) == false)
+                        throw new Exception(err);
                     Connect();
                 }
                 catch(Exception exp)
@@ -194,6 +200,9 @@ namespace morzeui
         {
             if (lvContact.SelectedItems.Count == 1)
             {
+                if (lvContact.SelectedItems[0].Font.Bold==true)
+                    lvContact.Items[0].Font = new Font(lvContact.Items[0].Font, FontStyle.Regular);
+
                 IMORZEContact cnt = lvContact.SelectedItems[0].Tag as IMORZEContact;
 
 
@@ -262,9 +271,17 @@ namespace morzeui
                 dlg.Dispose();
             }
         }
-        private void OnRecvMessage(IMORZEContact sender, string message, uint param)
+        private void OnRecvMessage(IMORZEContact sender, MORZEMessage msg)
         {
-            
+            Invoke(new Action(() =>
+            {
+                for (int i = 0; i < lvContact.Items.Count; i++)
+                {
+                    IMORZEContact c = lvContact.Items[i].Tag as IMORZEContact; ;
+                    if (c != null && c.GetAddress() == sender.GetAddress())
+                        lvContact.Items[i].Font = new Font(lvContact.Items[i].Font, FontStyle.Bold);
+                }
+            }));
         }
 
         private void OnRecvNotifyAcceptecExtKey(IMORZEContact sender)
@@ -277,7 +294,7 @@ namespace morzeui
                 foreach (MORZEMessage msg in msgs)
                 {
                     err = m_net.SendMessage(msg, sender);
-                    if (string.IsNullOrEmpty(err) == false)
+                    if (string.IsNullOrEmpty(err) == true)
                         msg.Status = MORZEMessageStatus.sended;
                 }
             }

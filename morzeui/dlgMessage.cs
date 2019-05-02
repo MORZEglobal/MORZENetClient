@@ -34,11 +34,11 @@ namespace morzeui
             }
         }
 
-        private void OnRecvMessage(IMORZEContact sender, string message, uint param)
+        private void OnRecvMessage(IMORZEContact sender, MORZEMessage msg)
         {
             Invoke(new Action(() =>
             {
-                PutDisplayMessage(sender.ToString(), message);
+                PutDisplayMessage(sender.ToString(), msg.ToString());
             }));
         }
 
@@ -70,7 +70,7 @@ namespace morzeui
             MORZEContact mcnt = m_cnt as MORZEContact;
             if (mcnt != null)
             {
-                //mcnt.OnRecvMessage -= OnRecvMessage;
+                mcnt.OnRecvMessage -= OnRecvMessage;
             }
         }
         private void PutDisplayMessage(string from, string text)
@@ -78,7 +78,9 @@ namespace morzeui
             rb.AppendText(string.Format("{0} - {1}", from, DateTime.Now.ToString("dd.MM.yyyy HH:mm")));
             rb.AppendText("\r\n");
             rb.AppendText(text);
-            
+            rb.AppendText("\r\n");
+            rb.AppendText("\r\n");
+
         }
 
         private void tbMessage_KeyPress(object sender, KeyPressEventArgs e)

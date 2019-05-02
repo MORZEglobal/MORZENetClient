@@ -10,7 +10,8 @@ namespace SMS
     public class MORZESendMessage : SMSSendCommand
     {
 
-        
+        private byte[] m_hash;
+        private SMSHash m_hashID;
 
         public MORZESendMessage() : base(0x02)
         {

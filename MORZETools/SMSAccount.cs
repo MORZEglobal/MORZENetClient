@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 using System.Threading;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SMS
 {
@@ -18,7 +19,7 @@ namespace SMS
         string m_KeyName;
         byte[] m_Entropy;
         IAddressBook m_addressBook;
-
+        string m_path;
         List<MORZEMessages> m_Messages;
         
         /// <summary>
@@ -31,7 +32,8 @@ namespace SMS
         {
             m_KeyName = keyName;
             m_Entropy=Encoding.Unicode.GetBytes(keyName.ToLower());
-            
+            m_path = SMSFileTools.SMSPath;
+            m_path += "history.store";
         }
         public string GenerateKey()
         {
@@ -129,11 +131,115 @@ namespace SMS
             }
             return err;
         }
+        public string LoadMessagesHistory()
+        {
+            string error = null;
+            if (File.Exists(m_path) == true)
+                error = LoadMsgHistory();
+            else
+                m_Messages = new List<MORZEMessages>();
+            return error;
+        }
+        private string LoadMsgHistory()
+        {
+            BinaryFormatter formatter = null;
+            MemoryStream ms = null;
+            string error = null;
+
+            FileStream fs = null;
+            try
+            {
+                fs = File.Open(m_path, FileMode.Open, FileAccess.Read);
+
+                byte[] data;
+                byte[] encdata;
+                encdata = new byte[fs.Length];
+
+                fs.Read(encdata, 0, encdata.Length);
+                fs.Close();
+                data = ProtectedData.Unprotect(encdata, null, DataProtectionScope.CurrentUser);
+                formatter = new BinaryFormatter();
+                ms = new MemoryStream();
+                ms.Write(data, 0, data.Length);
+                ms.Flush();
+                ms.Seek(0, SeekOrigin.Begin);
+                m_Messages = formatter.Deserialize(ms) as List<MORZEMessages>;
+
+            }
+            catch (Exception exp)
+            {
+                error = exp.Message;
+            }
+            finally
+            {
+                if (ms != null)
+                    ms.Dispose();
+                if (fs != null)
+                    fs.Dispose();
+            }
+            return error;
+        }
+        public string SaveMessagesHistory()
+        {
+            BinaryFormatter formatter = null;
+            MemoryStream ms = null;
+            string error = null;
+            bool isBkCopied = false;
+            string bkfile = m_path + ".bac";
+            FileStream fs = null;
+            try
+            {
+                if (m_Messages != null)
+                {
+                    formatter = new BinaryFormatter();
+                    ms = new MemoryStream();
+
+                    Monitor.Enter(m_Messages);
+                    formatter.Serialize(ms, m_Messages);
+                    Monitor.Exit(m_Messages);
+
+                    ms.Flush();
+                    ms.Seek(0, SeekOrigin.Begin);
+                    byte[] data;
+                    byte[] encdata;
+                    data = new byte[ms.Length];
+                    ms.Read(data, 0, data.Length);
+                    encdata = ProtectedData.Protect(data, null, DataProtectionScope.CurrentUser);
+                    if (File.Exists(m_path) == true)
+                    {
+
+                        File.Copy(m_path, bkfile, true);
+                        isBkCopied = true;
+                    }
+                    fs = File.Open(m_path, FileMode.Create, FileAccess.Write);
+                    fs.Write(encdata, 0, encdata.Length);
+                    fs.Close();
+
+                }
+            }
+            catch (Exception exp)
+            {
+                error = exp.Message;
+                if (isBkCopied == true)
+                {
+                    if (File.Exists(bkfile) == true)
+                        File.Copy(bkfile, m_path, true);
+                }
+            }
+            finally
+            {
+                if (ms != null)
+                    ms.Dispose();
+                if (fs != null)
+                    fs.Dispose();
+            }
+            return error;
+        }
         /// <summary>
-        /// загрузка сохраненного ключа
+        /// load stored key
         /// </summary>
         /// <param name="password">опционально</param>
-        /// <returns>текст ошибки</returns>
+        /// <returns>error message</returns>
         public string LoadKey(string password)
         {
             string err=null;
@@ -187,7 +293,7 @@ namespace SMS
 
                 }
                 else
-                    err = "Неверное имя ключа";
+                    err = "Invalid key name";
 
                 
             }
@@ -310,10 +416,10 @@ namespace SMS
             if (m_Messages == null)
                 m_Messages = new List<MORZEMessages>();
             else
-                msgs = m_Messages.Where(x => x.Contact.ToString() == contact.ToString()).FirstOrDefault();
+                msgs = m_Messages.Where(x => x.ContactAddress == contact.ToString()).FirstOrDefault();
             if (msgs == null)
             {
-                msgs = new MORZEMessages(this, contact);
+                msgs = new MORZEMessages(contact);
                 m_Messages.Add(msgs);
             }
             Monitor.Exit(this);
@@ -329,7 +435,7 @@ namespace SMS
             MORZEMessages msgs = null;
             if (m_Messages != null)
             {
-                msgs = m_Messages.Where(x => x.Contact.GetAddress() == contact.GetAddress() ).FirstOrDefault();
+                msgs = m_Messages.Where(x => x.ContactAddress == contact.GetAddress() ).FirstOrDefault();
                 if (msgs != null)
                 {
                     lmsg = msgs.UnsendedNewMessages;

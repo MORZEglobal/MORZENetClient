@@ -17,17 +17,42 @@ namespace SMS
         sendedDelireved = 0x04,
         senedReaded =0x05
     };
+    [Serializable]
     public class MORZEMessage
     {
         MORZEMessageStatus m_stat;
         DateTime m_created;
         string m_Msg;
+        SMSHash m_hashid;
+        byte[] m_hash;
+        int m_resendCounter;
+        uint m_numPos;
         public MORZEMessage(string msg)
         {
             m_Msg = msg;
             m_stat = MORZEMessageStatus.def;
             m_created = DateTime.Now;
         }
+        public MORZEMessage(string msg, SMSHash hashid, byte[]hash)
+        {
+            
+            m_Msg = msg;
+            m_stat = MORZEMessageStatus.sended;
+            m_created = DateTime.Now;
+            m_hashid = hashid;
+            m_hash = hash;
+        }
+        public MORZEMessage(string msg, SMSHash hashid, byte[] hash, uint numpos)
+        {
+
+            m_Msg = msg;
+            m_stat = MORZEMessageStatus.sended;
+            m_created = DateTime.Now;
+            m_hashid = hashid;
+            m_hash = hash;
+            m_numPos = numpos;
+        }
+
         public MORZEMessageStatus Status
         {
             get
@@ -36,6 +61,8 @@ namespace SMS
             }
             set
             {
+                if (value == MORZEMessageStatus.sended)
+                    m_resendCounter++;
                 m_stat = value;
             }
         }
@@ -43,23 +70,51 @@ namespace SMS
         {
             return m_Msg;
         }
-    }
-    public class MORZEMessages
-    {
-        IMORZEAccount m_account;
-        IMORZEContact m_contact;
-        List<MORZEMessage> m_messages;
-        public MORZEMessages(IMORZEAccount account, IMORZEContact contact)
-        {
-            m_account = account;
-            m_contact = contact;
-        }
-
-        public IMORZEContact Contact
+        public SMSHash   HashID
         {
             get
             {
-                return m_contact;
+                return m_hashid;
+            }
+            set
+            {
+                m_hashid = value;
+            }
+        }
+        public byte []Hash
+        {
+            get
+            {
+                return m_hash;
+            }
+            set
+            {
+                m_hash = value;
+            }
+        }
+        
+    }
+    [Serializable]
+    public class MORZEMessages
+    {
+        //[field: NonSerialized]
+        //IMORZEAccount m_account;
+        //[field: NonSerialized]
+        //IMORZEContact m_contact;
+        string m_contactAddress;
+        List<MORZEMessage> m_messages;
+        public MORZEMessages( IMORZEContact contact)
+        {
+            //m_account = account;
+            //m_contact = contact;
+            m_contactAddress = contact.GetAddress();
+        }
+
+        public string ContactAddress
+        {
+            get
+            {
+                return m_contactAddress;
             }
         }
 
@@ -76,10 +131,9 @@ namespace SMS
             m_messages.Add(msg);
             Monitor.Exit(this);
         }
-        public void AddSendedNewMessages(string text)
+        public void AddSendedNewMessages(MORZEMessage msg)
         {
-            MORZEMessage msg;
-            msg = new MORZEMessage(text);
+
             msg.Status = MORZEMessageStatus.sended;
 
             Monitor.Enter(this);

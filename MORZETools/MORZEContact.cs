@@ -139,6 +139,8 @@ namespace SMS
         public event RecvNotifyAcceptecExtKey OnRecvNotifyAcceptecExtKey;
         [field: NonSerialized]
         public event RecvMessage OnRecvMessage;
+        [field: NonSerialized]
+        private List<byte[]> m_responseMsg;
         public MORZEContact(string Name, string address)
         {
             
@@ -219,8 +221,11 @@ namespace SMS
         }
         public void clearAllExt()
         {
-            m_Exts.Clear();
-            m_Exts = null;
+            if (m_Exts != null)
+            {
+                m_Exts.Clear();
+                m_Exts = null;
+            }
         }
         public ExtKey getInitalData()
         {
@@ -324,7 +329,7 @@ namespace SMS
                                 
                                 break;
                             case 3://Type 3 - new messages
-                                recvNewMessage(key, res);
+                                bRes=recvNewMessage(key, res, hashid, hash);
                                 break;
                             case 4://Type 4 уведомление о принятых сообщениях .
                                 break;
@@ -397,13 +402,44 @@ namespace SMS
 
             return bres;
         }
-        private void recvNewMessage(ExtKey key,byte[] msg)
+        private bool recvNewMessage(ExtKey key,byte[] msg, SMSHash hashid, byte[]hash)
         {
             uint nummsg = BitConverter.ToUInt32(msg, 1);
-            string text = Encoding.ASCII.GetString(msg, 5, msg.Length - 5);
+            string text = Encoding.UTF8.GetString(msg, 5, msg.Length - 5);
+            MORZEMessage mmsg = new MORZEMessage(text, hashid, hash, nummsg);
             if (OnRecvMessage != null)
-                OnRecvMessage(this, text, nummsg);
+                OnRecvMessage(this, mmsg);
 
+
+            
+
+            BufferBuilder bb = new BufferBuilder();
+            bb.AddByte(4); // Type 4 - notify recived message
+            bb.AddByte((byte)hashid);
+            bb.AddBytes(hash);
+            
+
+            byte []netmsg;
+            bool bres = false;
+            string err = SMSCrypt.SyncEncode(key.SyncID, bb.GetAllBytes(), key.SyncKey, key.SyncIV, out netmsg);
+            if (string.IsNullOrEmpty(err) == true)
+            {
+                if (m_responseMsg == null)
+                    m_responseMsg = new List<byte[]>();
+                m_responseMsg.Add(netmsg);
+                bres = true;
+            }
+            
+            return bres;
+
+
+        }
+        public List<byte[]> Respnoses
+        {
+            get
+            {
+                return m_responseMsg;
+            }
         }
         public byte[] getMORZENetMessage(string msg, out ExtKey ext)
         {
@@ -415,7 +451,7 @@ namespace SMS
                 byte[] netmsg = null;
                 string err;
                 ExtKey key = m_Exts[m_Exts.Count - 1];
-                bmsg=Encoding.ASCII.GetBytes(msg);
+                bmsg=Encoding.UTF8.GetBytes(msg);
                 uint numofMessage = 0;
 
                 netmsg = new byte[bmsg.Length + 5];

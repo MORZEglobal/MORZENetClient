@@ -140,7 +140,27 @@ namespace SMS
                             IMORZEContact mc = m_acc.GetAddressBook().GetContact(ext);
 
                             if (mc != null)
-                                mc.PutReciveMessage(msg, hash, mrzhash, ext);
+                            {
+                                if (mc.PutReciveMessage(msg, hash, mrzhash, ext) == true)
+                                {
+                                    MORZEContact cc = mc as MORZEContact;
+                                    if (cc!=null)
+                                    {
+                                        List<byte[]> r = cc.Respnoses;
+                                        if (r != null)
+                                        {
+                                            foreach(byte[] i in r)
+                                            {
+                                                MORZESendMessage cmdMsgTyp2=new MORZESendMessage();
+                                                cmdMsgTyp2.AddMessageBody(i, mrzhash, ext);
+                                                if (m_responses == null)
+                                                    m_responses = new List<SMSSendCommand>();
+                                                m_responses.Add(cmdMsgTyp2);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
 
                         }
