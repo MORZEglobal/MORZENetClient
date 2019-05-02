@@ -35,7 +35,13 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
+            this.gbExt = new System.Windows.Forms.GroupBox();
+            this.lbcfrm = new System.Windows.Forms.Label();
+            this.lbun = new System.Windows.Forms.Label();
+            this.lbConfCount = new System.Windows.Forms.Label();
+            this.lbUnconfCount = new System.Windows.Forms.Label();
             this.gb.SuspendLayout();
+            this.gbExt.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -105,6 +111,55 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
+            // gbExt
+            // 
+            this.gbExt.Controls.Add(this.lbUnconfCount);
+            this.gbExt.Controls.Add(this.lbConfCount);
+            this.gbExt.Controls.Add(this.lbun);
+            this.gbExt.Controls.Add(this.lbcfrm);
+            this.gbExt.Location = new System.Drawing.Point(16, 240);
+            this.gbExt.Name = "gbExt";
+            this.gbExt.Size = new System.Drawing.Size(267, 62);
+            this.gbExt.TabIndex = 6;
+            this.gbExt.TabStop = false;
+            this.gbExt.Text = "Session keys";
+            // 
+            // lbcfrm
+            // 
+            this.lbcfrm.AutoSize = true;
+            this.lbcfrm.Location = new System.Drawing.Point(6, 19);
+            this.lbcfrm.Name = "lbcfrm";
+            this.lbcfrm.Size = new System.Drawing.Size(53, 13);
+            this.lbcfrm.TabIndex = 0;
+            this.lbcfrm.Text = "confirmed";
+            // 
+            // lbun
+            // 
+            this.lbun.AutoSize = true;
+            this.lbun.Location = new System.Drawing.Point(7, 39);
+            this.lbun.Name = "lbun";
+            this.lbun.Size = new System.Drawing.Size(65, 13);
+            this.lbun.TabIndex = 1;
+            this.lbun.Text = "unconfirmed";
+            // 
+            // lbConfCount
+            // 
+            this.lbConfCount.AutoSize = true;
+            this.lbConfCount.Location = new System.Drawing.Point(99, 19);
+            this.lbConfCount.Name = "lbConfCount";
+            this.lbConfCount.Size = new System.Drawing.Size(13, 13);
+            this.lbConfCount.TabIndex = 2;
+            this.lbConfCount.Text = "0";
+            // 
+            // lbUnconfCount
+            // 
+            this.lbUnconfCount.AutoSize = true;
+            this.lbUnconfCount.Location = new System.Drawing.Point(99, 39);
+            this.lbUnconfCount.Name = "lbUnconfCount";
+            this.lbUnconfCount.Size = new System.Drawing.Size(13, 13);
+            this.lbUnconfCount.TabIndex = 3;
+            this.lbUnconfCount.Text = "0";
+            // 
             // dlgContact
             // 
             this.AcceptButton = this.btnOk;
@@ -112,6 +167,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(511, 304);
+            this.Controls.Add(this.gbExt);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
@@ -125,8 +181,11 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "dlgContact";
+            this.Load += new System.EventHandler(this.dlgContact_Load);
             this.gb.ResumeLayout(false);
             this.gb.PerformLayout();
+            this.gbExt.ResumeLayout(false);
+            this.gbExt.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -141,5 +200,10 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
         protected System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.GroupBox gbExt;
+        private System.Windows.Forms.Label lbUnconfCount;
+        private System.Windows.Forms.Label lbConfCount;
+        private System.Windows.Forms.Label lbun;
+        private System.Windows.Forms.Label lbcfrm;
     }
 }

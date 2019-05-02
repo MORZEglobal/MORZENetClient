@@ -70,6 +70,20 @@ namespace morzeui
 
         }
 
+        private void dlgContact_Load(object sender, EventArgs e)
+        {
+            if (m_cnt != null)
+            {
+                MORZEContact mcnt;
+                Text = m_cnt.ToString();
+                mcnt = m_cnt as MORZEContact;
+                if (mcnt != null)
+                {
+                    lbConfCount.Text = mcnt.ConfirmedKeysCount.ToString();
+                    lbUnconfCount.Text = mcnt.UnconfirmedKeysCount.ToString();
+                }
+            }
+        }
     }
 
     public class dlgAccount : dlgContact

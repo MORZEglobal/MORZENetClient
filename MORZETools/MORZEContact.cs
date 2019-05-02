@@ -433,5 +433,25 @@ namespace SMS
 
             return enetmsg;
         }
+        public int UnconfirmedKeysCount
+        {
+            get
+            {
+                int ret = 0;
+                if (m_TmpExts != null)
+                    ret = m_TmpExts.Count;
+                return ret;
+            }
+        }
+        public int ConfirmedKeysCount
+        {
+            get
+            {
+                int ret = 0;
+                if (m_Exts != null)
+                    ret = m_Exts.Count;
+                return ret;
+            }
+        }
     }
 }
