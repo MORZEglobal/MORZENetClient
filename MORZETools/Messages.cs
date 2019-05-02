@@ -76,6 +76,18 @@ namespace SMS
             m_messages.Add(msg);
             Monitor.Exit(this);
         }
+        public void AddSendedNewMessages(string text)
+        {
+            MORZEMessage msg;
+            msg = new MORZEMessage(text);
+            msg.Status = MORZEMessageStatus.sended;
+
+            Monitor.Enter(this);
+            if (m_messages == null)
+                m_messages = new List<MORZEMessage>();
+            m_messages.Add(msg);
+            Monitor.Exit(this);
+        }
         public List<MORZEMessage> UnsendedNewMessages
         {
             get

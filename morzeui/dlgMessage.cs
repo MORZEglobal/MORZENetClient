@@ -36,7 +36,10 @@ namespace morzeui
 
         private void OnRecvMessage(IMORZEContact sender, string message, uint param)
         {
-            PutDisplayMessage(sender.ToString(), message);
+            Invoke(new Action(() =>
+            {
+                PutDisplayMessage(sender.ToString(), message);
+            }));
         }
 
         private void btnSend_Click(object sender, EventArgs e)

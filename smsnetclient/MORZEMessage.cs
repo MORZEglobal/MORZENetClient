@@ -48,6 +48,14 @@ namespace SMS
                 MORZESendMessage m = new MORZESendMessage();
                 m.AddMessageBody(netmsg, ext.HashID, ext.Ext);
                 m.Send(m_netStream);
+
+                MORZEMessages msgs;
+                msgs = m_account.GetMessages(to);
+                if (msgs != null)
+                {
+                    msgs.AddSendedNewMessages(msg);
+                }
+
             }
             return err;
         }
@@ -64,6 +72,7 @@ namespace SMS
                     MORZESendMessage m = new MORZESendMessage();
                     m.AddMessageBody(netmsg, ext.HashID, ext.Ext);
                     m.Send(m_netStream);
+                    msg.Status = MORZEMessageStatus.sended;
                 }
                 catch (Exception exp)
                 {
