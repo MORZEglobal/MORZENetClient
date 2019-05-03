@@ -38,13 +38,14 @@
             this.tsConnect = new System.Windows.Forms.ToolStripDropDownButton();
             this.mnConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.mnDisconnect = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvContact = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmsLV = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.чатToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.параметрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.accountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tmCheckNotify = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             this.cmsLV.SuspendLayout();
             this.SuspendLayout();
@@ -110,16 +111,28 @@
             // mnConnect
             // 
             this.mnConnect.Name = "mnConnect";
-            this.mnConnect.Size = new System.Drawing.Size(152, 22);
+            this.mnConnect.Size = new System.Drawing.Size(128, 22);
             this.mnConnect.Text = "В сети";
             this.mnConnect.Click += new System.EventHandler(this.mnConnect_Click);
             // 
             // mnDisconnect
             // 
             this.mnDisconnect.Name = "mnDisconnect";
-            this.mnDisconnect.Size = new System.Drawing.Size(152, 22);
+            this.mnDisconnect.Size = new System.Drawing.Size(128, 22);
             this.mnDisconnect.Text = "Не в сети";
             this.mnDisconnect.Click += new System.EventHandler(this.mnDisconnect_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 6);
+            // 
+            // accountToolStripMenuItem
+            // 
+            this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
+            this.accountToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.accountToolStripMenuItem.Text = "Account...";
+            this.accountToolStripMenuItem.Click += new System.EventHandler(this.accountToolStripMenuItem_Click);
             // 
             // lvContact
             // 
@@ -166,17 +179,11 @@
             this.параметрыToolStripMenuItem.Text = "Параметры...";
             this.параметрыToolStripMenuItem.Click += new System.EventHandler(this.properyToolStripMenuItem_Click);
             // 
-            // accountToolStripMenuItem
+            // tmCheckNotify
             // 
-            this.accountToolStripMenuItem.Name = "accountToolStripMenuItem";
-            this.accountToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.accountToolStripMenuItem.Text = "Account...";
-            this.accountToolStripMenuItem.Click += new System.EventHandler(this.accountToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.tmCheckNotify.Enabled = true;
+            this.tmCheckNotify.Interval = 30000;
+            this.tmCheckNotify.Tick += new System.EventHandler(this.tmCheckNotify_Tick);
             // 
             // mainFrm
             // 
@@ -214,6 +221,7 @@
         private System.Windows.Forms.ToolStripMenuItem параметрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem accountToolStripMenuItem;
+        private System.Windows.Forms.Timer tmCheckNotify;
     }
 }
 

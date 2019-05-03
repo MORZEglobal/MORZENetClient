@@ -130,6 +130,8 @@ namespace morzeui
                     tsConnect.Image = Properties.Resources.yellow;
 
                     Cursor = Cursors.WaitCursor;
+
+
                     m_net.Connect("127.0.0.1", 5555);
                 }
             }
@@ -317,6 +319,11 @@ namespace morzeui
         private void OnRecvDeliveredMsgNotify(IMORZEContact sender, SMSHash hashid, byte[] hash)
         {
             m_account.SetDeliveredMessage(sender, hashid, hash);
+        }
+
+        private void tmCheckNotify_Tick(object sender, EventArgs e)
+        {
+
         }
     }
 }
