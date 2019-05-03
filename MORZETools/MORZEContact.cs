@@ -407,7 +407,10 @@ namespace SMS
         }
         private bool recvNewMessage(ExtKey key,byte[] msg, SMSHash hashid, byte[]hash)
         {
-            uint nummsg = BitConverter.ToUInt32(msg, 1);
+            ushort nummsg = BitConverter.ToUInt16(msg, 1);
+
+            ushort retry = BitConverter.ToUInt16(msg, 3);
+
             string text = Encoding.UTF8.GetString(msg, 5, msg.Length - 5);
             MORZEMessage mmsg = new MORZEMessage(text, hashid, hash, nummsg);
             if (OnRecvMessage != null)
@@ -459,7 +462,7 @@ namespace SMS
                 return m_responseMsg;
             }
         }
-        public byte[] getMORZENetMessage(string msg, out ExtKey ext)
+        public byte[] getMORZENetMessage(MORZEMessage msg, out ExtKey ext)
         {
             byte[] enetmsg = null;
             ext = null;
@@ -469,16 +472,19 @@ namespace SMS
                 byte[] netmsg = null;
                 string err;
                 ExtKey key = m_Exts[m_Exts.Count - 1];
-                bmsg=Encoding.UTF8.GetBytes(msg);
-                uint numofMessage = 0;
+                bmsg=Encoding.UTF8.GetBytes(msg.ToString());
+                
 
                 netmsg = new byte[bmsg.Length + 5];
                 netmsg[0] = 3; //type of message  - text message
 
                 byte[] num;
-                num=BitConverter.GetBytes(numofMessage);
 
+                num=BitConverter.GetBytes(msg.GetOrderNumber); //must 2butes
                 Array.Copy(num, 0, netmsg, 1, num.Length);
+
+                num = BitConverter.GetBytes(msg.GetResnedCount); //must 2butes
+                Array.Copy(num, 0, netmsg, 3, num.Length);
 
                 Array.Copy(bmsg, 0, netmsg, 5, bmsg.Length);
 

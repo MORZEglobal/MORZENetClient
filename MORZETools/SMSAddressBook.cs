@@ -84,7 +84,7 @@ namespace SMS
         /// <param name="address">адрес контакта</param>
         /// <param name="isaddIfnotExist">добавить контакт если не сущесвует</param>
         /// <returns></returns>
-        public IMORZEContact GetContact(string address, bool isaddIfnotExist)
+        public IMORZEContact GetContact(string address, bool addIfnotExist)
         {
             IMORZEContact cnt=null;
             bool isnew = false;
@@ -95,7 +95,7 @@ namespace SMS
                 cnt = cnts.First();
             else
             {
-                if (isaddIfnotExist == true)
+                if (addIfnotExist == true)
                 {
                     try
                     {

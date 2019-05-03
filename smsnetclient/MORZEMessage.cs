@@ -44,7 +44,9 @@ namespace SMS
             else
             {
                 ExtKey ext;
-                byte[] netmsg = to.getMORZENetMessage(msg.ToString(), out ext);
+                MORZEMessage mmsg = new MORZEMessage(msg.ToString());
+                byte[] netmsg = to.getMORZENetMessage(mmsg, out ext);
+
                 MORZESendMessage m = new MORZESendMessage();
                 m.AddMessageBody(netmsg, ext.HashID, ext.Ext);
                 
@@ -54,8 +56,8 @@ namespace SMS
                 msgs = m_account.GetMessages(to);
                 if (msgs != null)
                 {
-                    MORZEMessage mg = new MORZEMessage(msg.ToString(), ext.HashID, SMSCrypt.CalcHash(ext.HashID, netmsg));
-                    msgs.AddSendedNewMessages(mg);
+                    mmsg.AddHashInfo(ext.HashID, SMSCrypt.CalcHash(ext.HashID, netmsg));
+                    msgs.AddSendedNewMessages(mmsg);
                 }
 
             }
@@ -70,13 +72,12 @@ namespace SMS
                 try
                 {
                     ExtKey ext;
-                    byte []netmsg = to.getMORZENetMessage(msg.ToString(), out ext);
+                    byte []netmsg = to.getMORZENetMessage(msg, out ext);
                     MORZESendMessage m = new MORZESendMessage();
                     m.AddMessageBody(netmsg, ext.HashID, ext.Ext);
                     m.Send(m_netStream);
                     msg.Status = MORZEMessageStatus.sended;
-                    msg.HashID = ext.HashID;
-                    msg.Hash = SMSCrypt.CalcHash(ext.HashID, netmsg);
+                    msg.AddHashInfo(ext.HashID, SMSCrypt.CalcHash(ext.HashID, netmsg));
                 }
                 catch (Exception exp)
                 {

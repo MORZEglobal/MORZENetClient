@@ -169,6 +169,7 @@ namespace SMS
             catch (Exception exp)
             {
                 error = exp.Message;
+                //File.Delete(m_path);
             }
             finally
             {
@@ -464,6 +465,25 @@ namespace SMS
                 msgs.AddRecivedMessages(msg);
             }
             return bres;
+        }
+        public List<MORZEMessages> GetSendedAndUncofirmedMessages(TimeSpan interval)
+        {
+            List<MORZEMessages> msgssended = null;
+            foreach (MORZEMessages  msg in m_Messages)
+            {
+                MORZEMessages ms;
+                List<MORZEMessage> 
+                msgs=msg.Messages.Where(x => x.Status == MORZEMessageStatus.sended && x.Date + interval < DateTime.Now).ToList();
+                if (msgs!=null && msgs.Any()==true)
+                {
+                    if (msgssended == null)
+                        msgssended = new List<MORZEMessages>();
+                    ms = new MORZEMessages(msg.ContactAddress);
+                    //ms.
+                    //msgssended.AddRange(ms);
+                }
+            }
+            return msgssended;
         }
     }
 }

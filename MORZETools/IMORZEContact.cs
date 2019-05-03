@@ -27,6 +27,6 @@ namespace SMS
         /// <param name="ext"></param>
         /// <returns>true - сообщение было успешно декодировано</returns>
         bool PutReciveMessage(byte[] msg, byte[] hash, SMSHash hashid, byte[] ext);
-        byte[] getMORZENetMessage(string msg, out ExtKey ext);
+        byte[] getMORZENetMessage(MORZEMessage msg, out ExtKey ext);
     }
 }

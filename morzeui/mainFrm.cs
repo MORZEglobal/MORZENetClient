@@ -323,7 +323,21 @@ namespace morzeui
 
         private void tmCheckNotify_Tick(object sender, EventArgs e)
         {
-
+            if (m_account!=null)
+            {
+                List<MORZEMessages> msgs = null;
+                msgs=m_account.GetSendedAndUncofirmedMessages(new TimeSpan(0, 0, 0, 0, tmCheckNotify.Interval));
+                if (msgs != null)
+                {
+                    foreach (MORZEMessages mm in msgs)
+                    {
+                        foreach (MORZEMessage m in mm.Messages)
+                        {
+                            m_net.SendMessage(m, m_book.GetContact(mm.ContactAddress, false));
+                        }
+                    }
+                }
+            }
         }
     }
 }

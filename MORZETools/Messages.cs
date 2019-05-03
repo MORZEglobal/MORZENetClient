@@ -24,15 +24,41 @@ namespace SMS
         MORZEMessageStatus m_stat;
         DateTime m_dateCreated;
         string m_Msg;
-        SMSHash m_hashid;
-        byte[] m_hash;
-        int m_resendCounter;
-        uint m_numPos;
+        List<SMSHash> m_hashid;
+        List<byte[]> m_hash;
+        ushort m_resendCounter;
+        ushort m_numPos;
         public MORZEMessage(string msg)
         {
             m_Msg = msg;
             m_stat = MORZEMessageStatus.def;
             m_dateCreated = DateTime.Now;
+            m_resendCounter = 1;
+        }
+        public void AddHashInfo(SMSHash hashid, byte[] hash)
+        {
+            
+            if (m_hashid == null)
+                m_hashid = new List<SMSHash>();
+            if (m_hash == null)
+                m_hash = new List<byte[]>();
+
+            m_hashid.Add(hashid);
+            m_hash.Add(hash);
+        }
+        public ushort GetOrderNumber
+        {
+            get
+            {
+                return m_numPos;
+            }
+        }
+        public ushort GetResnedCount
+        {
+            get
+            {
+                return m_resendCounter;
+            }
         }
         public MORZEMessage(string msg, SMSHash hashid, byte[]hash)
         {
@@ -40,17 +66,16 @@ namespace SMS
             m_Msg = msg;
             m_stat = MORZEMessageStatus.sended;
             m_dateCreated = DateTime.Now;
-            m_hashid = hashid;
-            m_hash = hash;
+            AddHashInfo(hashid, hash);
         }
-        public MORZEMessage(string msg, SMSHash hashid, byte[] hash, uint numpos)
+        public MORZEMessage(string msg, SMSHash hashid, byte[] hash, ushort numpos)
         {
 
             m_Msg = msg;
             m_stat = MORZEMessageStatus.sended;
             m_dateCreated = DateTime.Now;
-            m_hashid = hashid;
-            m_hash = hash;
+
+            AddHashInfo(hashid, hash);
             m_numPos = numpos;
         }
         public DateTime Date
@@ -77,27 +102,25 @@ namespace SMS
         {
             return m_Msg;
         }
-        public SMSHash   HashID
+        public bool isHash(SMSHash hashid, byte[] hash)
         {
-            get
+            bool bres = false;
+            if (m_hash!=null)
             {
-                return m_hashid;
+                for(int i=0;i<m_hashid.Count && bres==false;i++)
+                {
+                    if (m_hashid[i]==hashid)
+                    {
+                        bres = true;
+                        for(int j=0;j<m_hash[i].Length && bres==true;j++)
+                        {
+                            if (m_hash[i][j] != hash[j])
+                                bres = false;
+                        }
+                    }
+                }
             }
-            set
-            {
-                m_hashid = value;
-            }
-        }
-        public byte []Hash
-        {
-            get
-            {
-                return m_hash;
-            }
-            set
-            {
-                m_hash = value;
-            }
+            return bres;
         }
         
     }
@@ -115,6 +138,12 @@ namespace SMS
             //m_account = account;
             //m_contact = contact;
             m_contactAddress = contact.GetAddress();
+        }
+        public MORZEMessages(string contactAddress)
+        {
+            //m_account = account;
+            //m_contact = contact;
+            m_contactAddress = contactAddress;
         }
 
         public string ContactAddress
@@ -185,24 +214,15 @@ namespace SMS
             List<MORZEMessage> msghash;
             if (m_messages!=null)
             {
-                msghash = m_messages.Where(x => x.HashID == hashid && x.Status== MORZEMessageStatus.sended).ToList();
+                msghash = m_messages.Where(x => x.isHash(hashid, hash)==true).ToList();
                 if (msghash!=null)
                 {
-                    for(int i=0;i<msghash.Count;i++)
-                    {
-                        bool bfind = true;
-                        byte[] ihash = msghash[i].Hash;
-                        for(int j=0;j<hash.Length&&bfind==true;j++)
+                    foreach(MORZEMessage msg in msghash)
                         {
-                            if (ihash[j] != hash[j])
-                                bfind = false;
-                        }
-                        if (bfind==true)
-                        {
-                            msghash[i].Status = MORZEMessageStatus.sendedDelireved;
+                            msg.Status = MORZEMessageStatus.sendedDelireved;
                             bres = true;
                         }
-                    }
+                    
                 }
             }
             return bres;
