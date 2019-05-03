@@ -146,7 +146,7 @@ namespace SMS
                                     MORZEContact cc = mc as MORZEContact;
                                     if (cc!=null)
                                     {
-                                        List<byte[]> r = cc.Respnoses;
+                                        List<byte[]> r = cc.Responses;
                                         if (r != null)
                                         {
                                             foreach(byte[] i in r)
@@ -157,6 +157,7 @@ namespace SMS
                                                     m_responses = new List<SMSSendCommand>();
                                                 m_responses.Add(cmdMsgTyp2);
                                             }
+                                            cc.Responses.Clear();
                                         }
                                     }
                                 }

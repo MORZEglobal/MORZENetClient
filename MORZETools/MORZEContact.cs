@@ -455,14 +455,14 @@ namespace SMS
             bres = true;
             return bres;
         }
-        public List<byte[]> Respnoses
+        public List<byte[]> Responses
         {
             get
             {
-                List<byte[]> rsp;
-                rsp = m_responseMsg;
-                m_responseMsg.Clear();
-                return rsp;
+                //List<byte[]> rsp;
+                //rsp = m_responseMsg;
+                //m_responseMsg.Clear();
+                return m_responseMsg;
             }
         }
         public byte[] getMORZENetMessage(MORZEMessage msg, out ExtKey ext)
