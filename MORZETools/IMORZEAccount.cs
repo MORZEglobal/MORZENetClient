@@ -13,5 +13,6 @@ namespace SMS
         bool updateSynKey(SMSHash hash, byte[] ext, SMSSyncAlgo sync, byte[] key, byte[] iv, string contact);
         IAddressBook GetAddressBook();
         MORZEMessages GetMessages(IMORZEContact contact);
+        
     }
 }

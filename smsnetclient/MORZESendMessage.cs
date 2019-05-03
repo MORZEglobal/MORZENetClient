@@ -58,7 +58,7 @@ namespace SMS
                 }
                 else
                 {
-                    throw new Exception("Неподдерживаемая длина сообщения");
+                    throw new Exception("Unsupported length message");
                 }
             }
             else

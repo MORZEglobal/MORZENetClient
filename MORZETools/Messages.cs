@@ -15,13 +15,14 @@ namespace SMS
         unsended = 0x02,
         sended =0x03,
         sendedDelireved = 0x04,
-        senedReaded =0x05
+        senedReaded =0x05,
+        recived = 0x06
     };
     [Serializable]
     public class MORZEMessage
     {
         MORZEMessageStatus m_stat;
-        DateTime m_created;
+        DateTime m_dateCreated;
         string m_Msg;
         SMSHash m_hashid;
         byte[] m_hash;
@@ -31,14 +32,14 @@ namespace SMS
         {
             m_Msg = msg;
             m_stat = MORZEMessageStatus.def;
-            m_created = DateTime.Now;
+            m_dateCreated = DateTime.Now;
         }
         public MORZEMessage(string msg, SMSHash hashid, byte[]hash)
         {
             
             m_Msg = msg;
             m_stat = MORZEMessageStatus.sended;
-            m_created = DateTime.Now;
+            m_dateCreated = DateTime.Now;
             m_hashid = hashid;
             m_hash = hash;
         }
@@ -47,12 +48,18 @@ namespace SMS
 
             m_Msg = msg;
             m_stat = MORZEMessageStatus.sended;
-            m_created = DateTime.Now;
+            m_dateCreated = DateTime.Now;
             m_hashid = hashid;
             m_hash = hash;
             m_numPos = numpos;
         }
-
+        public DateTime Date
+        {
+            get
+            {
+                return m_dateCreated;
+            }
+        }
         public MORZEMessageStatus Status
         {
             get
@@ -117,7 +124,13 @@ namespace SMS
                 return m_contactAddress;
             }
         }
-
+        public List<MORZEMessage> Messages
+        {
+            get
+            {
+                return m_messages;
+            }
+        }
 
         public void AddUnsendedNewMessages(string text)
         {
@@ -142,6 +155,18 @@ namespace SMS
             m_messages.Add(msg);
             Monitor.Exit(this);
         }
+        public void AddRecivedMessages(MORZEMessage msg)
+        {
+
+            msg.Status = MORZEMessageStatus.sended;
+
+            Monitor.Enter(this);
+            if (m_messages == null)
+                m_messages = new List<MORZEMessage>();
+            msg.Status = MORZEMessageStatus.recived;
+            m_messages.Add(msg);
+            Monitor.Exit(this);
+        }
         public List<MORZEMessage> UnsendedNewMessages
         {
             get
@@ -153,6 +178,34 @@ namespace SMS
                 }
                 return ret;
             }
+        }
+        public bool SetDeliveredMessage(SMSHash hashid, byte[] hash)
+        {
+            bool bres=false;
+            List<MORZEMessage> msghash;
+            if (m_messages!=null)
+            {
+                msghash = m_messages.Where(x => x.HashID == hashid && x.Status== MORZEMessageStatus.sended).ToList();
+                if (msghash!=null)
+                {
+                    for(int i=0;i<msghash.Count;i++)
+                    {
+                        bool bfind = true;
+                        byte[] ihash = msghash[i].Hash;
+                        for(int j=0;j<hash.Length&&bfind==true;j++)
+                        {
+                            if (ihash[j] != hash[j])
+                                bfind = false;
+                        }
+                        if (bfind==true)
+                        {
+                            msghash[i].Status = MORZEMessageStatus.sendedDelireved;
+                            bres = true;
+                        }
+                    }
+                }
+            }
+            return bres;
         }
     }
 }

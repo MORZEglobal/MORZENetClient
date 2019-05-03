@@ -194,7 +194,10 @@ namespace morzeui
             MORZEContact mrz = contact as MORZEContact;
             mrz.OnRecvNotifyAcceptecExtKey += OnRecvNotifyAcceptecExtKey;
             mrz.OnRecvMessage += OnRecvMessage;
+            mrz.OnRecvDeliveredMsgNotify += OnRecvDeliveredMsgNotify;
         }
+
+        
 
         private void lvContact_DoubleClick(object sender, EventArgs e)
         {
@@ -281,6 +284,8 @@ namespace morzeui
                     if (c != null && c.GetAddress() == sender.GetAddress())
                         lvContact.Items[i].Font = new Font(lvContact.Items[i].Font, FontStyle.Bold);
                 }
+
+                m_account.AddReciveredMessage(sender, msg);
             }));
         }
 
@@ -308,6 +313,10 @@ namespace morzeui
                 acc.ShowDialog();
                 acc.Dispose();
             }
+        }
+        private void OnRecvDeliveredMsgNotify(IMORZEContact sender, SMSHash hashid, byte[] hash)
+        {
+            m_account.SetDeliveredMessage(sender, hashid, hash);
         }
     }
 }

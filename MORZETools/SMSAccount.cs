@@ -416,7 +416,7 @@ namespace SMS
             if (m_Messages == null)
                 m_Messages = new List<MORZEMessages>();
             else
-                msgs = m_Messages.Where(x => x.ContactAddress == contact.ToString()).FirstOrDefault();
+                msgs = m_Messages.Where(x => x.ContactAddress == contact.GetAddress()).FirstOrDefault();
             if (msgs == null)
             {
                 msgs = new MORZEMessages(contact);
@@ -444,6 +444,26 @@ namespace SMS
             Monitor.Exit(this);
 
             return lmsg;
+        }
+        public bool SetDeliveredMessage(IMORZEContact from, SMSHash hashid, byte []hash)
+        {
+            bool bres = false;
+            MORZEMessages msgs=GetMessages(from);
+            if (msgs!=null)
+            {
+                msgs.SetDeliveredMessage(hashid, hash);
+            }
+            return bres;
+        }
+        public bool AddReciveredMessage(IMORZEContact from, MORZEMessage msg)
+        {
+            bool bres = false;
+            MORZEMessages msgs = GetMessages(from);
+            if (msgs != null)
+            {
+                msgs.AddRecivedMessages(msg);
+            }
+            return bres;
         }
     }
 }

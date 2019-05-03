@@ -8,6 +8,7 @@ namespace SMS
 {
     public delegate void RecvNotifyAcceptecExtKey(IMORZEContact sender);
     public delegate void RecvMessage(IMORZEContact sender, MORZEMessage msg);
+    public delegate void RecvDeliveredMsgNotify(IMORZEContact sender, SMSHash hashidh, byte[] hash);
     public interface IMORZEContact
     {
         byte[] EncryptPK(byte[] input);

@@ -16,11 +16,13 @@ namespace morzeui
         IMORZEContact m_cnt;
         IMORZEAccount m_acc;
         SMSNet m_net;
+        DateTime? m_lastLoadedMessage;
         public dlgMessage(IMORZEContact cnt, IMORZEAccount acc, SMSNet net)
         {
             m_cnt = cnt;
             m_acc = acc;
             m_net = net;
+            m_lastLoadedMessage = null;
             InitializeComponent();
         }
 
@@ -31,6 +33,26 @@ namespace morzeui
             if (mcnt!=null)
             {
                 mcnt.OnRecvMessage += OnRecvMessage;
+
+                MORZEMessages msgs=m_acc.GetMessages(m_cnt);
+                if (msgs!=null)
+                {
+                    List<MORZEMessage> m;
+                    if (m_lastLoadedMessage != null)
+                        m = msgs.Messages.Where(x => x.Date > m_lastLoadedMessage).ToList();
+                    else
+                        m = msgs.Messages;
+                    m = m.OrderBy(x => x.Date).ToList();
+
+                    foreach(MORZEMessage i in m)
+                    {
+                        if (i.Status == MORZEMessageStatus.recived)
+                            PutDisplayMessage(m_cnt.ToString(), i.ToString());
+                        else
+                            PutDisplayMessage(m_acc.ToString(), i.ToString());
+                        m_lastLoadedMessage = i.Date;
+                    }
+                }
             }
         }
 
@@ -81,6 +103,8 @@ namespace morzeui
             rb.AppendText("\r\n");
             rb.AppendText("\r\n");
 
+            rb.SelectionStart = rb.Text.Length;
+            rb.ScrollToCaret();
         }
 
         private void tbMessage_KeyPress(object sender, KeyPressEventArgs e)

@@ -141,6 +141,8 @@ namespace SMS
         public event RecvMessage OnRecvMessage;
         [field: NonSerialized]
         private List<byte[]> m_responseMsg;
+        [field: NonSerialized]
+        public event RecvDeliveredMsgNotify OnRecvDeliveredMsgNotify;
         public MORZEContact(string Name, string address)
         {
             
@@ -332,6 +334,7 @@ namespace SMS
                                 bRes=recvNewMessage(key, res, hashid, hash);
                                 break;
                             case 4://Type 4 уведомление о принятых сообщениях .
+                                bRes = recvDeliveryNotify(key, res);
                                 break;
                         }
                     }
@@ -433,6 +436,21 @@ namespace SMS
             return bres;
 
 
+        }
+        private bool recvDeliveryNotify(ExtKey key, byte[] msg)
+        {
+            bool bres = false;
+            byte[] hash;
+            uint off = 2;
+            SMSHash hashid = (SMSHash)msg[off-1];
+            hash = new byte[msg.Length - off];
+
+            Array.Copy(msg, off, hash, 0, hash.Length);
+
+            if (OnRecvDeliveredMsgNotify != null)
+                OnRecvDeliveredMsgNotify(this, hashid, hash);
+            bres = true;
+            return bres;
         }
         public List<byte[]> Respnoses
         {
