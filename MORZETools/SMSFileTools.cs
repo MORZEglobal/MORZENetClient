@@ -14,7 +14,7 @@ namespace SMS
             get
             {
                 
-                const string smsDir = "MORZE.global-messenger\\";
+                const string smsDir = "MORZE.global-messenger1\\";
                 string path;
                 path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 #if DEBUG

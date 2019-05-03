@@ -47,9 +47,9 @@ namespace morzeui
                     foreach(MORZEMessage i in m)
                     {
                         if (i.Status == MORZEMessageStatus.recived)
-                            PutDisplayMessage(m_cnt.ToString(), i.ToString());
+                            PutDisplayMessage(m_cnt.ToString(), i.ToString(),false);
                         else
-                            PutDisplayMessage(m_acc.ToString(), i.ToString());
+                            PutDisplayMessage(m_acc.ToString(), i.ToString(),true);
                         m_lastLoadedMessage = i.Date;
                     }
                 }
@@ -60,7 +60,7 @@ namespace morzeui
         {
             Invoke(new Action(() =>
             {
-                PutDisplayMessage(sender.ToString(), msg.ToString());
+                PutDisplayMessage(sender.ToString(), msg.ToString(), false);
             }));
         }
 
@@ -74,7 +74,7 @@ namespace morzeui
                     err = m_net.SendMessage(tbMessage.Text, m_cnt);
                     if (string.IsNullOrEmpty(err) == true)
                     {
-                        PutDisplayMessage(m_acc.ToString(), tbMessage.Text);
+                        PutDisplayMessage(m_acc.ToString(), tbMessage.Text, true);
                         tbMessage.Text = string.Empty;
                     }
                     else
@@ -95,16 +95,37 @@ namespace morzeui
                 mcnt.OnRecvMessage -= OnRecvMessage;
             }
         }
-        private void PutDisplayMessage(string from, string text)
+        private void PutDisplayMessage(string from, string text, bool isrigth)
         {
+            int begin = rb.Text.Length;
+            rb.SelectionAlignment = HorizontalAlignment.Left;
             rb.AppendText(string.Format("{0} - {1}", from, DateTime.Now.ToString("dd.MM.yyyy HH:mm")));
+            rb.SelectionStart = begin;
+            rb.SelectionLength = rb.Text.Length - begin;
+            rb.SelectionColor = Color.Blue;
+
             rb.AppendText("\r\n");
+            int begin1 = rb.Text.Length;
             rb.AppendText(text);
+            rb.SelectionStart = begin1;
+            rb.SelectionLength = text.Length;
+            float size = rb.Font.Size + 2;
+            rb.SelectionFont = new Font(rb.Font.FontFamily,size);
             rb.AppendText("\r\n");
             rb.AppendText("\r\n");
+            if (isrigth == true)
+            {
+                rb.SelectionStart = begin;
+                rb.SelectionLength = rb.Text.Length - begin;
+                rb.SelectionAlignment = HorizontalAlignment.Right;
+            }
+            
+                
+
 
             rb.SelectionStart = rb.Text.Length;
             rb.ScrollToCaret();
+            rb.SelectionLength = 0;
         }
 
         private void tbMessage_KeyPress(object sender, KeyPressEventArgs e)
