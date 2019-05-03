@@ -84,6 +84,8 @@ namespace SMS
                     OnConnectChange(false, exp.Message);
                 }
             }
+            else
+                SendInitialMessage(to);
             return err;
         }
         private void SendInitialMessage(IMORZEContact to)

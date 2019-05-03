@@ -16,7 +16,8 @@ namespace SMS
         sended =0x03,
         sendedDelireved = 0x04,
         senedReaded =0x05,
-        recived = 0x06
+        recived = 0x06,
+        recipUnknown = 0x07
     };
     [Serializable]
     public class MORZEMessage
@@ -157,6 +158,8 @@ namespace SMS
         {
             get
             {
+                if (m_messages == null)
+                    m_messages = new List<MORZEMessage>();
                 return m_messages;
             }
         }

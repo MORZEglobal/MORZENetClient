@@ -427,7 +427,7 @@ namespace SMS
 
             return msgs;
         }
-        public List<MORZEMessage> GetUnsendedNewMessages(IMORZEContact contact)
+        public List<MORZEMessage> GetUnsendedNewMessages(IMORZEContact contact, TimeSpan interval)
         {
 
             List<MORZEMessage> lmsg = null;
@@ -439,7 +439,7 @@ namespace SMS
                 msgs = m_Messages.Where(x => x.ContactAddress == contact.GetAddress() ).FirstOrDefault();
                 if (msgs != null)
                 {
-                    lmsg = msgs.UnsendedNewMessages;
+                    lmsg = msgs.Messages.Where(x => x.Status == MORZEMessageStatus.unsendedNew || (x.Status == MORZEMessageStatus.sended && x.Date + interval < DateTime.Now)).ToList();
                 }
             }
             Monitor.Exit(this);
@@ -479,8 +479,8 @@ namespace SMS
                     if (msgssended == null)
                         msgssended = new List<MORZEMessages>();
                     ms = new MORZEMessages(msg.ContactAddress);
-                    //ms.
-                    //msgssended.AddRange(ms);
+                    ms.Messages.AddRange(msgs);
+                    msgssended.Add(ms);
                 }
             }
             return msgssended;

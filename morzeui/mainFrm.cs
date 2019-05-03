@@ -294,7 +294,7 @@ namespace morzeui
         private void OnRecvNotifyAcceptecExtKey(IMORZEContact sender)
         {
             List<MORZEMessage> msgs;
-            msgs=m_account.GetUnsendedNewMessages(sender);
+            msgs=m_account.GetUnsendedNewMessages(sender, new TimeSpan(0, 0, 0, 0, tmCheckNotify.Interval));
             if (msgs!=null)
             {
                 string err;
@@ -331,9 +331,18 @@ namespace morzeui
                 {
                     foreach (MORZEMessages mm in msgs)
                     {
-                        foreach (MORZEMessage m in mm.Messages)
+                        if (mm.Messages.Any())
                         {
-                            m_net.SendMessage(m, m_book.GetContact(mm.ContactAddress, false));
+                            mm.Messages.OrderBy(x => x.Date);
+                            IMORZEContact cnt = m_book.GetContact(mm.ContactAddress, false);
+                            if (cnt != null)
+                            {
+                                MORZEContact mc = cnt as MORZEContact;
+                                mc.clearAllExt();
+                                m_net.SendMessage(mm.Messages.FirstOrDefault(), cnt);
+                            }
+                            else
+                                mm.Messages[0].Status = MORZEMessageStatus.recipUnknown;
                         }
                     }
                 }
