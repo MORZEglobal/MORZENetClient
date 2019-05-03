@@ -31,7 +31,7 @@ namespace morzeui
             {
                 if (string.IsNullOrEmpty(tbName.Text) == false)
                 {
-                    if (m_cnt != null)
+                    //if (m_cnt != null)
                     {
                         cnt = new MORZEContact(tbName.Text, tbAddress.Text);
                         m_cnt = cnt;
