@@ -456,7 +456,10 @@ namespace SMS
         {
             get
             {
-                return m_responseMsg;
+                List<byte[]> rsp;
+                rsp = m_responseMsg;
+                m_responseMsg.Clear();
+                return rsp;
             }
         }
         public byte[] getMORZENetMessage(string msg, out ExtKey ext)
